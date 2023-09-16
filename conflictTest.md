@@ -1,1 +1,1 @@
-Second edit on github
+resolved the merge conflict
