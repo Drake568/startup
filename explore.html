@@ -28,70 +28,82 @@
         </nav>
       </div>
     </header>
+    <br />
 
     <main>
-      <div className="friend-selector-container">
-        <h3>User Search</h3>
-        <form id="userSearchForm">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Enter a username..."
-          />
-          <button type="submit">Search</button>
-        </form>
-        <div id="searchResults">
-          <!-- This will be populated by javascript -->
+      <div class="items-view">
+        <div class="explore-filter-container">
+          <h3>User Search</h3>
+          <form id="userSearchForm">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Enter a username..."
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div id="searchResults">
+            <!-- This will be populated by javascript -->
+          </div>
+          <div id="friendList">
+            <h3>Friend list</h3>
+            <a href="friends.html">John</a>
+            <!-- This will be populated by javascript -->
+          </div>
+          <h2>John's Studies</h2>
         </div>
-        <div id="friendList">
-          <h3>Friend's list</h3>
-          <a href="friends.html">John</a>
-          <!-- This will be populated by javascript -->
-        </div>
-      </div>
 
-      <!-- This down will be identical to the home screen -->
-      <div className="home-studies-container">
-        <div className="my-studies-container">
-          <h2>[Friend's Name] Studies</h2>
-          <hr />
+        <!-- This down will be identical to the home screen -->
+        <div class="studies-container">
+
           <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
-          <div className="study-container">
-            <h3>Feb 3 2023</h3>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
             <p>1 Nephi 3 is great!</p>
             <p>Links</p>
-            <hr />
           </div>
-          <div className="study-container">
-            <h3>Feb 2 2023</h3>
-            <p>1 Nephi 2 is great!</p>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
             <p>Links</p>
-            <hr />
           </div>
-          <div className="study-container">
-            <h3>Feb 1 2023</h3>
-            <p>1 Nephi 1 is great!</p>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
             <p>Links</p>
-            <hr />
           </div>
-        </div>
-        <!-- When you click on one of the links in a study it will pull up here -->
-        <div className="iframe-container">
-          <iframe
-            src="https://www.churchofjesuschrist.org/study?lang=eng"
-            frameborder="1"
-            width="50%"
-            height="100%"
-          ></iframe>
-        </div>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
+            <p>Links</p>
+          </div>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
+            <p>Links</p>
+          </div>
       </div>
-    </main>
+    </div>
+    <!-- When you click on one of the links in a study it will pull up here -->
+    <div class="iframe-container">
+      <iframe
+        src="https://www.churchofjesuschrist.org/study?lang=eng"
+        frameborder="1"
+        width="50%"
+        height="100%"
+      ></iframe>
+    </div>
+  </main>
 
-    <footer>
-      <hr />
-      <span class="text-reset">Jacob Drake</span>
-      <br />
-      <a href="https://github.com/Drake568/startup">GitHub</a>
-    </footer>
-  </body>
+  <footer>
+    <hr />
+    <span class="text-reset">Jacob Drake</span>
+    <a href="https://github.com/Drake568/startup">GitHub</a>
+  </footer>
+</body>
 </html>

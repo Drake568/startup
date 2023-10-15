@@ -104,6 +104,14 @@ iframe {
   padding-left: 1em;
 }
 
+.explore-filter-container {
+  padding-left: 1em;
+}
+
+.explore-filter-container button {
+  width: fit-content;
+}
+
 @media (max-width: 1000px) {
   header {
     flex-direction: column;
@@ -128,5 +136,9 @@ iframe {
   h3,
   footer {
     display: none;
+  }
+  .explore-filter-container h3,
+  .explore-filter-container h2 {
+    display: contents;
   }
 }
