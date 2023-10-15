@@ -1,0 +1,132 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(to bottom, #9bcaf7, #f6f6f6, #9bcaf7);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: #000000 3px solid;
+  border-style: double;
+  border-radius: 5px;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+menu {
+  display: flex;
+}
+
+.nav-item {
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  background-color: #ffffff80;
+}
+
+.left-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-buttons {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.logo {
+  padding: 0.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333; /* Set the color for the links */
+}
+
+button {
+  width: 60%;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.438);
+  height: 22px;
+  font-size: 0.9rem;
+  font-weight: 525;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: column;
+  border: #00000050 3px solid;
+  border-radius: 5px;
+  width: 80%;
+  padding: 0.5rem;
+  margin: 5px;
+  height: fit-content;
+  background-color: #fdfdfdc9;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+.items-view {
+  flex: 1;
+  overflow-y: scroll;
+  max-height: 82vh;
+  max-width: 50%;
+}
+.iframe-container {
+  flex: 1;
+  border-left: #00000050 3px solid;
+  align-content: center;
+  justify-content: center;
+}
+
+iframe {
+  width: 98%;
+  height: 98%;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 20px;
+}
+
+.studies-container,
+.notification-container {
+  padding-left: 1em;
+}
+
+@media (max-width: 1000px) {
+  header {
+    flex-direction: column;
+  }
+  main {
+    flex-direction: column;
+    height: 100vh;
+    max-height: 90vh;
+  }
+  .items-view {
+    flex: 3.5;
+    overflow-y: auto;
+    max-width: 100%;
+  }
+  .iframe-container {
+    margin-top: 10px;
+    flex: 6.5;
+    border-left: none;
+  }
+  .left-container,
+  h2,
+  h3,
+  footer {
+    display: none;
+  }
+}

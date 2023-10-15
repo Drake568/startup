@@ -5,77 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FaithPlates</title>
     <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
     <header>
-      <div>
-        <img
-          src="https://clipart-library.com/img/1664716.png"
-          width="50"
-          height="40"
-        />
-        <h1>[Username]</h1>
-      </div>
-      <nav>
-        <menu>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="friends.html">Friend's Studies</a></li>
-          <li><a href="compose.html">Compose</a></li>
-          <li><a href="index.html">Logout</a></li>
-        </menu>
-      </nav>
-      <hr />
-    </header>
-
-    <main>
-      <div className="home-studies-container">
-        <div className="notification-container">
-          <h3>Notifications</h3>
-          <p>Friend 1 has shared a study</p>
-          <p>Friend request</p>
-          <button type="button">Accept</button>
-          <button type="button">Decline</button>
+      <div class="left-container">
+        <div class="logo">
+          <img src="icon.png" width="50" height="60" />
         </div>
-        <div className="my-studies-container">
+        <div class="header-text">
+          <h1>Jacob Drake</h1>
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <nav>
+          <menu>
+            <li class="nav-item"><a href="home.html">Home</a></li>
+            <li class="nav-item"><a href="compose.html">Compose</a></li>
+            <li class="nav-item"><a href="explore.html">Explore</a></li>
+            <li class="nav-item"><a href="index.html">Logout</a></li>
+          </menu>
+        </nav>
+      </div>
+    </header>
+<br>
+    <main>
+      <div class="items-view">
+        <div class="notification-container">
+          <h3>Notifications</h3>
+          <div class="item-container">
+            <p>Friend 1 has shared a study</p>
+            <p>Friend request</p>
+            <button type="button">Accept</button>
+            <button type="button">Decline</button>
+          </div>
+        </div>
+        <div class="studies-container">
           <h2>My Studies</h2>
-          <hr />
+
           <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
-          <div className="study-container">
-            <h3>Feb 3 2023</h3>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
             <p>1 Nephi 3 is great!</p>
             <p>Links</p>
-            <hr />
           </div>
-          <div className="study-container">
-            <h3>Feb 2 2023</h3>
-            <p>1 Nephi 2 is great!</p>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
             <p>Links</p>
-            <hr />
           </div>
-          <div className="study-container">
-            <h3>Feb 1 2023</h3>
-            <p>1 Nephi 1 is great!</p>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
             <p>Links</p>
-            <hr />
           </div>
-        </div>
-        <!-- When you click on one of the links in a study it will pull up here -->
-        <div className="iframe-container">
-          <iframe
-            src="https://www.churchofjesuschrist.org/study?lang=eng"
-            frameborder="1"
-            width="50%"
-            height="100%"
-          ></iframe>
-        </div>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
+            <p>Links</p>
+          </div>
+          <div class="item-container">
+            <h3>Feb 3 2023</h3
+            <p>Some words</p>
+            <p>more words</p>
+            <p>1 Nephi 3 is great!</p>
+            <p>Links</p>
+          </div>
+      </div>
+    </div>
+      <!-- When you click on one of the links in a study it will pull up here -->
+      <div class="iframe-container">
+        <iframe
+          src="https://www.churchofjesuschrist.org/study?lang=eng"
+          frameborder="1"
+          width="50%"
+          height="100%"
+        ></iframe>
       </div>
     </main>
 
     <footer>
       <hr />
       <span class="text-reset">Jacob Drake</span>
-      <br />
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
   </body>

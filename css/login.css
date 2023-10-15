@@ -4,7 +4,7 @@ body {
   align-items: center;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(to bottom, #0074e4, #b0ddee, #0074e4);
+  background: linear-gradient(to bottom, #9bcaf7, #f6f6f6, #9bcaf7);
   background-attachment: fixed;
   background-size: cover;
 }
