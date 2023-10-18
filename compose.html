@@ -6,6 +6,7 @@
     <title>FaithPlates</title>
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/compose.css" />
   </head>
   <body>
     <header>
@@ -29,44 +30,43 @@
       </div>
     </header>
 
-    <main>
-      <form action="compose.html" method="post">
-        <div class="form-group">
-          <!-- Includes validation-->
-          <label for="text">Your Notes: </label>
-          <input
-            type="text"
-            id="notes"
-            name="notes"
-            placeholder="And it came to pass..."
-          />
-        </div>
-        <div class="form-group">
-          <label for="text">(Optional) Link to study material: </label>
-          <input
-            type="text"
-            id="link"
-            name="link"
-            placeholder="https://www.lds.org"
-          />
-          <button type="button">Check Link</button>
-        </div>
-      </form>
-      <button type="submit">Submit</button>
-      <hr />
+    <main class="compose-main-container">
+      <div>
+        <form action="compose.html" method="post">
+          <div class="form-group">
+            <label for="notes">Your Notes: </label>
+            <textarea
+              id="notes-input"
+              name="notes-input"
+              placeholder="And it came to pass..."
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="links">(Optional) Link to study material: </label>
+            <div class="links-input">
+              <input
+                type="text"
+                id="links-input"
+                name="links-input"
+                placeholder="https://www.lds.org"
+              />
+              <button type="button">Test</button>
+              <button type="button">+</button>
+            </div>
+          </div>
+        </form>
+      </div>
       <div className="iframe-container">
         <iframe
           src="https://www.churchofjesuschrist.org/study?lang=eng"
-          frameborder="1"
-          width="100%"
         ></iframe>
       </div>
+      <button type="submit">Submit</button>
     </main>
 
     <footer>
       <hr />
       <span class="text-reset">Jacob Drake</span>
-      <br />
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
   </body>
