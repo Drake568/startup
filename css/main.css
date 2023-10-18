@@ -2,15 +2,13 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(to bottom, #9bcaf7, #f6f6f6, #9bcaf7);
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: #000000 3px solid;
-  border-style: double;
+  border: #00000050 1px solid;
   border-radius: 5px;
   background-color: #ffffff;
   width: 100%;
@@ -24,7 +22,7 @@ menu {
   display: flex;
   padding: 0.5rem;
   border-radius: 10px;
-  border: 1px solid #000000;
+  border: #00000050 1px solid;
   color: #fff;
   font-weight: 600;
   font-size: 1.2rem;
@@ -52,7 +50,8 @@ nav a {
 }
 
 button {
-  width: 60%;
+  min-width: 100px;
+  max-width: fit-content;
   border-radius: 3px;
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.438);
@@ -61,55 +60,9 @@ button {
   font-weight: 525;
 }
 
-.item-container {
-  display: flex;
-  flex-direction: column;
-  border: #00000050 3px solid;
-  border-radius: 5px;
-  width: 80%;
-  padding: 0.5rem;
-  margin: 5px;
-  height: fit-content;
-  background-color: #fdfdfdc9;
-}
-
 main {
   display: flex;
   flex-direction: row;
-}
-
-.items-view {
-  flex: 1;
-  overflow-y: scroll;
-  max-height: 82vh;
-  max-width: 50%;
-}
-.iframe-container {
-  flex: 1;
-  border-left: #00000050 3px solid;
-  align-content: center;
-  justify-content: center;
-}
-
-iframe {
-  width: 98%;
-  height: 98%;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 20px;
-}
-
-.studies-container,
-.notification-container {
-  padding-left: 1em;
-}
-
-.explore-filter-container {
-  padding-left: 1em;
-}
-
-.explore-filter-container button {
-  width: fit-content;
 }
 
 @media (max-width: 1000px) {
@@ -121,24 +74,8 @@ iframe {
     height: 100vh;
     max-height: 90vh;
   }
-  .items-view {
-    flex: 3.5;
-    overflow-y: auto;
-    max-width: 100%;
-  }
-  .iframe-container {
-    margin-top: 10px;
-    flex: 6.5;
-    border-left: none;
-  }
-  .left-container,
-  h2,
-  h3,
-  footer {
+
+  .left-container {
     display: none;
-  }
-  .explore-filter-container h3,
-  .explore-filter-container h2 {
-    display: contents;
   }
 }

@@ -9,8 +9,14 @@
 }
 
 iframe {
+  margin-top: 12px;
   height: 35vh;
   width: 100%;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 textarea {
