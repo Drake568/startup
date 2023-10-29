@@ -1,7 +1,7 @@
 .items-view {
   flex: 1;
   overflow-y: scroll;
-  max-height: 82vh;
+  height: 82vh;
   max-width: 50%;
 }
 
@@ -43,6 +43,13 @@ iframe {
 
 .explore-filter-container {
   padding-left: 1em;
+}
+
+h3,
+h4,
+p {
+  margin: 2px;
+  padding: 0;
 }
 
 @media (max-width: 1000px) {

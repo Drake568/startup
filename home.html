@@ -34,7 +34,7 @@
       <!-- I will make item containers look much better later -->
       <div class="items-view">
         <div class="notification-container">
-          <h3>Notifications</h3>
+          <h2>Notifications</h2>
           <div class="item-container">
             <p>Friend 1 has shared a study</p>
             <button type="button">See page</button>
@@ -45,47 +45,15 @@
             <button type="button">Decline</button>
           </div>
         </div>
+
         <div class="studies-container">
           <h2>My Studies</h2>
-
-          <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
+          <div id="studies-list"></div>
+        </div>
       </div>
-    </div>
       <!-- When you click on one of the links in a study it will pull up here -->
       <div class="iframe-container">
-        <iframe
-          src="https://www.churchofjesuschrist.org/study?lang=eng"
-        ></iframe>
+        <iframe name="study-iframe" src="about:blank"></iframe>
       </div>
     </main>
 
@@ -94,5 +62,73 @@
       <span class="text-reset">Jacob Drake</span>
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
+
+    <script>
+      // Function to display saved studies
+      function displaySavedStudies() {
+        const studiesList = document.getElementById("studies-list");
+
+        // Clear the current list to avoid duplicates
+        studiesList.innerHTML = "";
+
+        // Retrieve saved data from localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+
+          if (key.startsWith("Study-")) {
+            const data = JSON.parse(localStorage.getItem(key));
+
+            // Extract the timestamp from the key
+            const timestamp = key.replace("Study-", "");
+
+            // Create a new item container for each saved study
+            const studyContainer = document.createElement("div");
+            studyContainer.classList.add("item-container");
+
+            // Create a header element to display the date
+            const dateHeader = document.createElement("h3");
+            dateHeader.textContent = new Date(
+              parseInt(timestamp)
+            ).toLocaleString();
+
+            // Create a header element for notes
+            const notesHeader = document.createElement("h4");
+            notesHeader.textContent = "Notes";
+
+            // Create a paragraph element to display the notes
+            const notesParagraph = document.createElement("p");
+            notesParagraph.textContent = data.notes;
+
+            // Create a header element for links
+            const linksHeader = document.createElement("h4");
+            linksHeader.textContent = "Links";
+
+            // Append the headers and notes to the study container
+            studyContainer.appendChild(dateHeader);
+            studyContainer.appendChild(notesHeader);
+            studyContainer.appendChild(notesParagraph);
+            studyContainer.appendChild(linksHeader);
+
+            // Create link elements for each saved link
+            data.links.forEach(function (link) {
+              if (link.trim() !== "") {
+                const linkElement = document.createElement("a");
+                linkElement.href = link;
+                linkElement.textContent = link;
+                linkElement.target = "study-iframe";
+                linkElement.classList.add("study-link");
+                studyContainer.appendChild(linkElement);
+              }
+            });
+
+            // Append the study container to the studies list
+            studiesList.appendChild(studyContainer);
+          }
+        }
+      }
+
+      // Call the function to display saved studies when the page loads
+      displaySavedStudies();
+    </script>
   </body>
 </html>
