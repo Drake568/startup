@@ -62,3 +62,12 @@ For this deliverable I styled the application using CSS. I plan to update the st
 - **Application elements** - Used good contrast and whitespace
 - **Application text content** - I used CSS to fill in the text content for the application. These are still mostly placeholders. The item containers will be update when I get real data from the database. This includes the Notifications and studies.
 - **Application images** - There is an updated icon on the nav bar. I changed the styling to make it look better.
+
+## JS deliverable
+
+For this deliverable I added JavaScript to the application. I added the following features.
+
+- **JavaScript support for future login** - Added login function. Adds data to local storage with placeholder for database validation.
+- **JavaScript support for future database data** - Built out logic for getting and posting data to local storage. Will simply replace with the database later.
+- **JavaScript support for future WebSocket** - Added placeholder logic for freind requests.
+- **JavaScript support for your application's interaction logic** - Added JavaScript to handle all functions of the application.
