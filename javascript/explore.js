@@ -31,9 +31,9 @@ function displaySearchResults(results) {
     addFriendButton.addEventListener("click", () => {
       //Send friend request through websocket
       alert("Friend Request Sent!");
-      const friends = JSON.parse(localStorage.getItem("friends")) || [];
+      const friends = JSON.parse(localStorage.getItem("friend-requests")) || [];
       friends.push(user.username);
-      localStorage.setItem("friends", JSON.stringify(friends));
+      localStorage.setItem("friend-requests", JSON.stringify(friends));
     });
     userDiv.appendChild(addFriendButton);
     searchResultsContainer.appendChild(userDiv);
@@ -55,7 +55,7 @@ for (let i = 0; i < friends.length; i++) {
   friendLink.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the link from navigating
     localStorage.setItem("studiesToDisplay", friend);
-    window.location.href = "explore.html";
+    window.location.reload();
   });
   friendDiv.appendChild(friendLink);
   friendList.appendChild(friendDiv);

@@ -65,6 +65,10 @@ function saveData() {
       JSON.stringify(data)
     );
     alert("Notes and links saved to localStorage!");
+
+    // Clear the form fields
+    notesInput.value = "";
+    linkInputs.forEach((input) => (input.value = ""));
   }
 }
 

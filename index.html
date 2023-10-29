@@ -36,24 +36,6 @@
       </footer>
     </div>
 
-    <script>
-      function login() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        if (!verifyCredentials(username, password)) {
-          alert("Invalid credentials");
-          return;
-        }
-
-        window.location.href = "home.html";
-      }
-
-      function verifyCredentials(username, password) {
-        localStorage.setItem("username", username);
-        localStorage.setItem("name", "Jake Drake"); // This will be their name from the database
-        return true;
-      }
-    </script>
+    <script src="javascript/login.js"></script>
   </body>
 </html>

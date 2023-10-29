@@ -15,7 +15,7 @@
           <img src="icon.png" width="50" height="60" />
         </div>
         <div class="header-text">
-          <h1>Jacob Drake</h1>
+          <h1 id="header-name"></h1>
         </div>
       </div>
       <div class="nav-buttons">
@@ -34,16 +34,7 @@
       <!-- I will make item containers look much better later -->
       <div class="items-view">
         <div class="notification-container">
-          <h2>Notifications</h2>
-          <div class="item-container">
-            <p>Friend 1 has shared a study</p>
-            <button type="button">See page</button>
-          </div>
-          <div class="item-container">
-            <p>Friend request</p>
-            <button type="button">Accept</button>
-            <button type="button">Decline</button>
-          </div>
+          <div id="notifications"></div>
         </div>
 
         <div class="studies-container">
@@ -62,7 +53,8 @@
       <span class="text-reset">Jacob Drake</span>
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
-
+    <script src="javascript/home.js"></script>
     <script src="javascript/displayStudies.js" type="text/javascript"></script>
+    <script src="javascript/commonjs.js"></script>
   </body>
 </html>

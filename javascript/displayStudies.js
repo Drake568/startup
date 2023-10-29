@@ -62,4 +62,13 @@ function createStudyElement(key, data) {
   return studyContainer;
 }
 
+if (window.location.href.includes("home.html")) {
+  localStorage.setItem("studiesToDisplay", localStorage.getItem("username"));
+} else if (window.location.href.includes("explore.html")) {
+  if (
+    localStorage.getItem("username") == localStorage.getItem("studiesToDisplay")
+  ) {
+    localStorage.setItem("studiesToDisplay", localStorage.getItem(""));
+  }
+}
 displaySavedStudies();
