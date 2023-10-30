@@ -69,5 +69,5 @@ For this deliverable I added JavaScript to the application. I added the followin
 
 - **JavaScript support for future login** - Added login function. Adds data to local storage with placeholder for database validation.
 - **JavaScript support for future database data** - Built out logic for getting and posting data to local storage. Will simply replace with the database later.
-- **JavaScript support for future WebSocket** - Added placeholder logic for freind requests.
+- **JavaScript support for future WebSocket** - Added placeholder logic for friend requests.
 - **JavaScript support for your application's interaction logic** - Added JavaScript to handle all functions of the application.
