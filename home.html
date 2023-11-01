@@ -15,7 +15,7 @@
           <img src="icon.png" width="50" height="60" />
         </div>
         <div class="header-text">
-          <h1>Jacob Drake</h1>
+          <h1 id="header-name"></h1>
         </div>
       </div>
       <div class="nav-buttons">
@@ -34,58 +34,17 @@
       <!-- I will make item containers look much better later -->
       <div class="items-view">
         <div class="notification-container">
-          <h3>Notifications</h3>
-          <div class="item-container">
-            <p>Friend 1 has shared a study</p>
-            <button type="button">See page</button>
-          </div>
-          <div class="item-container">
-            <p>Friend request</p>
-            <button type="button">Accept</button>
-            <button type="button">Decline</button>
-          </div>
+          <div id="notifications"></div>
         </div>
+
         <div class="studies-container">
           <h2>My Studies</h2>
-
-          <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
+          <div id="studies-list"></div>
+        </div>
       </div>
-    </div>
       <!-- When you click on one of the links in a study it will pull up here -->
       <div class="iframe-container">
-        <iframe
-          src="https://www.churchofjesuschrist.org/study?lang=eng"
-        ></iframe>
+        <iframe name="study-iframe" src="about:blank"></iframe>
       </div>
     </main>
 
@@ -94,5 +53,8 @@
       <span class="text-reset">Jacob Drake</span>
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
+    <script src="javascript/home.js"></script>
+    <script src="javascript/displayStudies.js" type="text/javascript"></script>
+    <script src="javascript/commonjs.js"></script>
   </body>
 </html>

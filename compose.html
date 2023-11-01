@@ -15,7 +15,7 @@
           <img src="icon.png" width="50" height="60" />
         </div>
         <div class="header-text">
-          <h1>Jacob Drake</h1>
+          <h1 id="header-name"></h1>
         </div>
       </div>
       <div class="nav-buttons">
@@ -32,11 +32,11 @@
 
     <main class="compose-main-container">
       <div>
-        <form action="compose.html" method="post">
+        <form action="compose.html" method="post" id="note-form">
           <div class="form-group">
             <div class="note-header">
               <label for="notes">Your Notes: </label>
-              <button type="submit">Save Study</button>
+              <button type="button" id="save-button">Save Study</button>
             </div>
             <textarea
               id="notes-input"
@@ -46,23 +46,15 @@
           </div>
           <div class="form-group">
             <label for="links">(Optional) Link to study material: </label>
-            <div class="links-input">
-              <input
-                type="text"
-                id="links-input"
-                name="links-input"
-                placeholder="https://www.lds.org"
-              />
-              <button type="button">Test</button>
-              <button type="button">+</button>
-            </div>
+            <button type="button" id="add-link" onclick="addLinkField()">
+              +
+            </button>
+            <div class="links-input"></div>
           </div>
         </form>
       </div>
       <div className="iframe-container">
-        <iframe
-          src="https://www.churchofjesuschrist.org/study?lang=eng"
-        ></iframe>
+        <iframe id="study-iframe" src="about:blank"></iframe>
       </div>
     </main>
 
@@ -71,5 +63,7 @@
       <span class="text-reset">Jacob Drake</span>
       <a href="https://github.com/Drake568/startup">GitHub</a>
     </footer>
+    <script src="javascript/commonjs.js"></script>
+    <script src="javascript/compose.js"></script>
   </body>
 </html>

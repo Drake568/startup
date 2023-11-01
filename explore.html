@@ -15,7 +15,7 @@
           <img src="icon.png" width="50" height="60" />
         </div>
         <div class="header-text">
-          <h1>Jacob Drake</h1>
+          <h1 id="header-name"></h1>
         </div>
       </div>
       <div class="nav-buttons">
@@ -34,66 +34,27 @@
       <div class="items-view">
         <div class="explore-filter-container">
           <h2>User Search</h2>
-          <form id="userSearchForm">
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Enter a username..."
-            />
-            <button type="submit">Search</button>
-          </form>
-          <div id="searchResults">
-            <!-- This will be populated by javascript -->
-          </div>
-          <div id="friendList">
-            <h3>Friend list</h3>
-            <a href="friends.html">John</a>
-            <!-- This will be populated by javascript -->
-          </div>
-          <h2>John's Studies</h2>
+            <div class="search-container">
+              <input type="text" id="search-input" placeholder="Search by username or name" />
+              <button onclick="searchUsers()">Search</button>
+            </div>
+          <div id="search-results"></div>
+          <h3>Friend list</h3>
+          <div id="friendList"></div>
+          <h2 id="friend-study-header">Friend's Studies</h2>
         </div>
 
-        <!-- This down will be identical to the home screen -->
         <div class="studies-container">
+          <div id="studies-list"></div>
+        </div>
 
-          <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
-          <div class="item-container">
-            <h3>Feb 3 2023</h3
-            <p>Some words</p>
-            <p>more words</p>
-            <p>1 Nephi 3 is great!</p>
-            <p>Links</p>
-          </div>
       </div>
     </div>
     <!-- When you click on one of the links in a study it will pull up here -->
     <div class="iframe-container">
       <iframe
-        src="https://www.churchofjesuschrist.org/study?lang=eng"
-
+        src="about:blank"
+        name="study-iframe"
       ></iframe>
     </div>
   </main>
@@ -103,5 +64,9 @@
     <span class="text-reset">Jacob Drake</span>
     <a href="https://github.com/Drake568/startup">GitHub</a>
   </footer>
+  <script src="javascript/explore.js"></script>
+  <script src="javascript/displayStudies.js" ></script>
+  <script src="javascript/commonjs.js" type="module"></script>
+  
 </body>
 </html>
