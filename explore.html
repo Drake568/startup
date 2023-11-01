@@ -31,22 +31,30 @@
     </header>
 
     <main>
-      <!-- I will make item containers look much better later -->
       <div class="items-view">
-        <div class="notification-container">
-          <h3>Notifications</h3>
-          <div class="item-container">
-            <p>Friend 1 has shared a study</p>
-            <button type="button">See page</button>
+        <div class="explore-filter-container">
+          <h2>User Search</h2>
+          <form id="userSearchForm">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Enter a username..."
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div id="searchResults">
+            <!-- This will be populated by javascript -->
           </div>
-          <div class="item-container">
-            <p>Friend request</p>
-            <button type="button">Accept</button>
-            <button type="button">Decline</button>
+          <div id="friendList">
+            <h3>Friend list</h3>
+            <a href="friends.html">John</a>
+            <!-- This will be populated by javascript -->
           </div>
+          <h2>John's Studies</h2>
         </div>
+
+        <!-- This down will be identical to the home screen -->
         <div class="studies-container">
-          <h2>My Studies</h2>
 
           <!-- These are just placeholders for the moment. Once we get to java script ill make a better study object component -->
           <div class="item-container">
@@ -81,18 +89,19 @@
           </div>
       </div>
     </div>
-      <!-- When you click on one of the links in a study it will pull up here -->
-      <div class="iframe-container">
-        <iframe
-          src="https://www.churchofjesuschrist.org/study?lang=eng"
-        ></iframe>
-      </div>
-    </main>
+    <!-- When you click on one of the links in a study it will pull up here -->
+    <div class="iframe-container">
+      <iframe
+        src="https://www.churchofjesuschrist.org/study?lang=eng"
 
-    <footer>
-      <hr />
-      <span class="text-reset">Jacob Drake</span>
-      <a href="https://github.com/Drake568/startup">GitHub</a>
-    </footer>
-  </body>
+      ></iframe>
+    </div>
+  </main>
+
+  <footer>
+    <hr />
+    <span class="text-reset">Jacob Drake</span>
+    <a href="https://github.com/Drake568/startup">GitHub</a>
+  </footer>
+</body>
 </html>

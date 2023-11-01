@@ -51,3 +51,14 @@ For this deliverable I built out the structure of my application using HTML.
 - **Database** - The studies and users will be stored in a database. I put mocked data on the html pages.
 - **WebSocket** - There is a notification section on the home page that will notify the user of friend requests and study shares in real time.
 - **3rd Party services** - The users can provide links to websites containing their study material. These will be pulled up in iframes.
+
+## CSS deliverable
+
+For this deliverable I styled the application using CSS. I plan to update the styling as I go but this has it looking mostly how I want the final product to look.
+
+- **Header, footer, and main content body** - I added css files for each page. There is a main css file that is shared including the navbar/header and footer styling. It also includes any shared main content styling. I made separate css files for styling that is unique to each page.
+- **Navigation elements** - I made the nav bar look nice and have links to the other pages. The nav links look like buttons. I dropped the underline on the nav links
+- **Responsive to window resizing** - My app looks great on all window sizes and devices
+- **Application elements** - Used good contrast and whitespace
+- **Application text content** - I used CSS to fill in the text content for the application. These are still mostly placeholders. The item containers will be update when I get real data from the database. This includes the Notifications and studies.
+- **Application images** - There is an updated icon on the nav bar. I changed the styling to make it look better.
