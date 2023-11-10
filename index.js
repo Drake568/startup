@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const studyService = require("./studyService");
+const userService = require("./userService");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -48,6 +49,78 @@ apiRouter.put("/updateStudy/:username/:studyId", (req, res) => {
     const { newNote, newLinks } = req.body;
     studyService.updateStudy(username, studyId, newNote, newLinks);
     res.json({ message: "Study updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Endpoint to register a new user
+apiRouter.post("/registerUser", (req, res) => {
+  try {
+    const newUser = req.body;
+    const registrationResult = userService.registerUser(newUser);
+
+    if (registrationResult) {
+      res.json({ message: "User registered successfully" });
+    } else {
+      res.status(400).json({ error: "Username already exists" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Endpoint to get user information
+apiRouter.get("/getUser/:username", (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = userService.getUser(username);
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Endpoint to update user information
+apiRouter.put("/updateUser/:username", (req, res) => {
+  try {
+    const username = req.params.username;
+    const { newEmail, newPassword } = req.body;
+    const updateResult = userService.updateUser(
+      username,
+      newEmail,
+      newPassword
+    );
+
+    if (updateResult) {
+      res.json({ message: "User updated successfully" });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+apiRouter.post("/login", (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const loginResult = loginService.loginUser(username, password);
+
+    if (loginResult) {
+      res.json({ message: "Login successful" });
+    } else {
+      res.status(401).json({ error: "Invalid username or password" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
