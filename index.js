@@ -1,10 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const studyService = require("./studyService");
-const userService = require("./userService");
-const friendService = require("./friendService");
-const loginService = require("./loginService");
+const studyService = require("./service/studyService");
+const userService = require("./service/userService");
+const friendService = require("./service/friendService");
+const loginService = require("./service/loginService");
 const jwt = require("jsonwebtoken");
 
 const app = express();
