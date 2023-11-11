@@ -2,23 +2,18 @@ if (window.location.href.includes("home.html")) {
   // Assuming fetchOwnStudies returns a Promise
   console.log("fetching studies");
 
-  displayOwnStudies();
+  displayStudies(localStorage.getItem("username"));
 } else {
   const studiesToDisplay = localStorage.getItem("studiesToDisplay");
   if (studiesToDisplay !== null) {
-    displayFriendStudies(studiesToDisplay);
+    displayStudies(studiesToDisplay);
   }
 }
 
-// function displayFriendStudies(username) {
-//   let studies = fetchFriendStudies(username);
-//   displayOwnStudies(studies);
-// }
-
-async function displayOwnStudies() {
+async function displayStudies(username) {
   let studies = null;
   try {
-    studies = await fetchOwnStudies();
+    studies = await fetchStudies(username);
     // Now you can work with the 'studies' data
     console.log(studies);
   } catch (error) {
@@ -36,37 +31,11 @@ async function displayOwnStudies() {
   }
 }
 
-function fetchFriendStudies(friendUsername) {
-  const token = localStorage.getItem("token");
-
-  // Make a GET request to retrieve your friend's studies
-  fetch(`/api/getStudies/${friendUsername}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((studies) => {
-      // Handle the retrieved studies as needed
-      console.log(`Retrieved studies for ${friendUsername}:`, studies);
-    })
-    .catch((error) => {
-      console.error("Error fetching studies:", error);
-    });
-}
-
-async function fetchOwnStudies() {
+async function fetchStudies(userName) {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch(`/api/getStudies/asdf`, {
+    const response = await fetch(`/api/getStudies/${userName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

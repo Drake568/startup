@@ -34,8 +34,13 @@ function updateUser(username, newEmail, newPassword) {
   }
 }
 
+function checkUserExists(username) {
+  return userMap.has(username);
+}
+
 module.exports = {
   registerUser,
   getUser,
   updateUser,
+  checkUserExists,
 };

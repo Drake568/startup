@@ -24,7 +24,7 @@ function getFriendStudies(username) {
   const studiesSet = studyMap.get(username);
   if (studiesSet) {
     const studiesArray = [...studiesSet].filter((study) =>
-      shared ? true : false
+      study.shared ? true : false
     );
     return studiesArray;
   } else {
@@ -60,4 +60,5 @@ module.exports = {
   addStudyToMap,
   getStudies,
   updateStudy,
+  getFriendStudies,
 };

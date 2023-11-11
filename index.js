@@ -61,7 +61,7 @@ apiRouter.get("/getStudies/:username", authenticateToken, (req, res) => {
       res.json(studies);
     } else {
       if (friendService.areFriends(authenticatedUsername, requestedUsername)) {
-        const studies = studyService.getFriendStudies(requestedUsername); // Only return shared studies
+        const studies = studyService.getFriendStudies(requestedUsername);
         res.json(studies);
       } else {
         res.status(403).json({ error: "Forbidden" });
@@ -163,41 +163,89 @@ apiRouter.post("/login", (req, res) => {
   }
 });
 
-apiRouter.post("/addFriend/:username/:friendUsername", (req, res) => {
+apiRouter.post("/sendFriendRequest/:sender/:receiver", (req, res) => {
   try {
-    const username = req.params.username;
-    const friendUsername = req.params.friendUsername;
-
-    friendService.addFriend(username, friendUsername);
-    res.json({ message: "Friend added successfully" });
+    const sender = req.params.sender;
+    const receiver = req.params.receiver;
+    if (!userService.checkUserExists(receiver)) {
+      res.json({ message: "User doesn't exist" });
+      return;
+    }
+    friendService.addFriendRequest(sender, receiver);
+    res.json({ message: "Friend request sent successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Endpoint to get friends for a user
+apiRouter.post("/acceptFriendRequest/:sender/:receiver", (req, res) => {
+  try {
+    const sender = req.params.sender;
+    const receiver = req.params.receiver;
+    friendService.acceptFriendRequest(sender, receiver);
+    res.json({ message: "Friend request accepted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+apiRouter.post("/rejectFriendRequest/:sender/:receiver", (req, res) => {
+  try {
+    const sender = req.params.sender;
+    const receiver = req.params.receiver;
+    friendService.rejectFriendRequest(sender, receiver);
+    res.json({ message: "Friend request rejected successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+apiRouter.post("/addFriend/:userA/:userB", (req, res) => {
+  try {
+    const userA = req.params.userA;
+    const userB = req.params.userB;
+    friendService.addFriend(userA, userB);
+    res.json({ message: "Friend added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 apiRouter.get("/getFriends/:username", (req, res) => {
   try {
     const username = req.params.username;
     const friends = friendService.getFriends(username);
-    res.json(Array.from(friends)); // Convert Set to array for easier serialization
+    res.json([...friends]); // Convert set to array for response
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Endpoint to check if two users are friends
 apiRouter.get("/areFriends/:userA/:userB", (req, res) => {
   try {
     const userA = req.params.userA;
     const userB = req.params.userB;
-    const areFriends = friendService.areFriends(userA, userB);
-    res.json({ areFriends });
+    const result = friendService.areFriends(userA, userB);
+    res.json({ areFriends: result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
+  }
+});
+
+apiRouter.get("/getFriendRequests/:username", (req, res) => {
+  try {
+    const username = req.params.username;
+    const friendRequests = friendService.getFriendRequests(username);
+    res.json([...friendRequests]); // Convert set to array for response
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
 });
 

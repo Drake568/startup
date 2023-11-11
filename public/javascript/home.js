@@ -1,58 +1,114 @@
 const notifications = document.getElementById("notifications");
 
-const friendRequestsJSON = localStorage.getItem("friend-requests");
-const friendRequests = JSON.parse(friendRequestsJSON);
+displayNotifications();
 
-if (friendRequests.length !== 0) {
-  const header = document.createElement("h2");
-  header.textContent = "Notifications";
-  notifications.appendChild(header);
-}
+async function displayNotifications() {
+  const friendRequests = await getFriendRequests();
+  console.log("Friend Requests:", friendRequests);
 
-for (let i = 0; i < friendRequests.length; i++) {
-  const friendRequest = friendRequests[i];
-  const friendRequestElement = document.createElement("div");
-  friendRequestElement.classList.add("notification");
-  friendRequestElement.textContent = `${friendRequest} wants to be your friend!`;
-  const acceptButton = document.createElement("button");
-  acceptButton.textContent = "Accept";
-  acceptButton.addEventListener("click", function () {
-    acceptFriendRequest(friendRequest);
-  });
-  friendRequestElement.appendChild(acceptButton);
-  const rejectButton = document.createElement("button");
-  rejectButton.textContent = "Reject";
-  rejectButton.addEventListener("click", function () {
-    rejectFriendRequest(friendRequest);
-  });
-  friendRequestElement.appendChild(rejectButton);
-  notifications.appendChild(friendRequestElement);
-}
-
-function acceptFriendRequest(request) {
-  const friends = JSON.parse(localStorage.getItem("friends")) || [];
-  friends.push(request);
-  localStorage.setItem("friends", JSON.stringify(friends));
-  const friendRequests =
-    JSON.parse(localStorage.getItem("friend-requests")) || [];
-  for (let i = 0; i < friendRequests.length; i++) {
-    if (friendRequests[i] === request) {
-      friendRequests.splice(i, 1);
-      break;
-    }
+  if (friendRequests.length !== 0) {
+    const header = document.createElement("h2");
+    header.textContent = "Notifications";
+    notifications.appendChild(header);
   }
-  localStorage.setItem("friend-requests", JSON.stringify(friendRequests));
-  window.location.reload();
-}
-function rejectFriendRequest(request) {
-  const friendRequests =
-    JSON.parse(localStorage.getItem("friend-requests")) || [];
+
   for (let i = 0; i < friendRequests.length; i++) {
-    if (friendRequests[i] === request) {
-      friendRequests.splice(i, 1);
-      break;
-    }
+    const requester = friendRequests[i];
+    const friendRequestElement = document.createElement("div");
+    friendRequestElement.classList.add("notification");
+    friendRequestElement.textContent = `${requester} wants to be your friend!`;
+    const acceptButton = document.createElement("button");
+    acceptButton.textContent = "Accept";
+    acceptButton.addEventListener("click", function () {
+      acceptFriendRequest(requester);
+    });
+    friendRequestElement.appendChild(acceptButton);
+    const rejectButton = document.createElement("button");
+    rejectButton.textContent = "Reject";
+    rejectButton.addEventListener("click", function () {
+      rejectFriendRequest(requester);
+    });
+    friendRequestElement.appendChild(rejectButton);
+    notifications.appendChild(friendRequestElement);
   }
-  localStorage.setItem("friend-requests", JSON.stringify(friendRequests));
-  window.location.reload();
+}
+
+async function getFriendRequests() {
+  try {
+    const response = await fetch(
+      `/api/getFriendRequests/${localStorage.getItem("username")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      const data = await response.json();
+      console.error(data.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+async function acceptFriendRequest(requester) {
+  try {
+    const response = await fetch(
+      `/api/acceptFriendRequest/${requester}/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+      alert(data.message);
+      window.location.reload();
+    } else {
+      const data = await response.json();
+      console.error(data.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+async function rejectFriendRequest(requester) {
+  try {
+    const response = await fetch(
+      `/api/rejectFriendRequest/${requester}/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+      alert(data.message);
+      window.location.reload();
+    } else {
+      const data = await response.json();
+      console.error(data.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
 }

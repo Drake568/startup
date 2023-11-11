@@ -1,6 +1,28 @@
-// friendService.js
+const userService = require("./userService"); // Import your userService
 
 let friendMap = new Map();
+let friendRequests = new Map();
+
+function addFriendRequest(sender, receiver) {
+  if (!friendRequests.has(receiver)) {
+    friendRequests.set(receiver, new Set([sender]));
+  } else {
+    friendRequests.get(receiver).add(sender);
+  }
+}
+
+function acceptFriendRequest(sender, receiver) {
+  if (friendRequests.has(receiver)) {
+    friendRequests.get(receiver).delete(sender);
+  }
+  addFriend(sender, receiver);
+}
+
+function rejectFriendRequest(sender, receiver) {
+  if (friendRequests.has(receiver)) {
+    friendRequests.get(receiver).delete(sender);
+  }
+}
 
 function addFriend(userA, userB) {
   if (!friendMap.has(userA)) {
@@ -25,8 +47,16 @@ function areFriends(userA, userB) {
   return userAFriends.has(userB);
 }
 
+function getFriendRequests(username) {
+  return friendRequests.get(username) || new Set();
+}
+
 module.exports = {
   addFriend,
   getFriends,
   areFriends,
+  addFriendRequest,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  getFriendRequests,
 };
