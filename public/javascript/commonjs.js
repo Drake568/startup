@@ -24,3 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "index.html";
   }
 });
+
+setVerseOfDay();
+
+async function setVerseOfDay() {
+  const verseElement = document.getElementById("verse");
+  verseElement.textContent =
+    "Verse of the Day: " + localStorage.getItem("randomVerse");
+}

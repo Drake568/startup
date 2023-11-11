@@ -39,3 +39,12 @@ function verifyCredentials(username, password) {
 function register() {
   window.location.href = "register.html";
 }
+
+getRandomVerse();
+
+async function getRandomVerse() {
+  const verse = await fetch(
+    "https://labs.bible.org/api/?passage=votd&type=text&formatting=plain"
+  ).then((response) => response.text());
+  localStorage.setItem("randomVerse", verse);
+}
