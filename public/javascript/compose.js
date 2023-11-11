@@ -50,26 +50,28 @@ function testLink(input) {
 function saveData() {
   const notesInput = document.getElementById("notes-input");
   const notesValue = notesInput.value;
+  console.log(notesValue);
 
   const linkInputs = document.querySelectorAll(".link-input");
   const links = Array.from(linkInputs).map((input) => input.value);
+  console.log(links);
 
-  // Check if notesValue is not empty and there are links
-  if (notesValue.trim() !== "" || links.some((link) => link.trim() !== "")) {
-    const data = {
-      notes: notesValue,
-      links: links,
-    };
-    localStorage.setItem(
-      `${localStorage.getItem("username")}-study-${new Date().getTime()}`,
-      JSON.stringify(data)
-    );
-    alert("Notes and links saved to localStorage!");
+  const newStudy = {
+    associatedUser: localStorage.getItem("username"),
+    note: notesValue,
+    links: links,
+    shared: true,
+    timestamp: Date(), // Use Date() without new to get the current date/time
+  };
+  console.log(newStudy);
 
-    // Clear the form fields
-    notesInput.value = "";
-    linkInputs.forEach((input) => (input.value = ""));
-  }
+  postStudy(newStudy);
+
+  alert("Notes and links saved to localStorage!");
+
+  // Clear the form fields
+  notesInput.value = "";
+  linkInputs.forEach((input) => (input.value = ""));
 }
 
 // Attach event listeners
@@ -85,4 +87,31 @@ if (savedData) {
   data.links.forEach((link, index) => {
     linkInputs[index].value = link;
   });
+}
+
+function postStudy(study) {
+  console.log("Posting study:");
+
+  // Make the POST request
+  fetch("/api/addStudy", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ study }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("POST request successful:", data);
+    })
+    .catch((error) => {
+      console.error("Error making POST request:", error);
+    });
+  console.log("study posted");
+  return true;
 }

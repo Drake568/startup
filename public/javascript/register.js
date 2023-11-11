@@ -35,6 +35,7 @@ function register() {
       console.log(data); // Log registration response
       alert("User registered successfully");
       localStorage.setItem("username", username);
+      localStorage.setItem("token", data.token);
       window.location.href = "home.html";
     })
     .catch((error) => {

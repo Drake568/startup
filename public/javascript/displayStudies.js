@@ -1,34 +1,100 @@
-// Function to display saved studies
-function displaySavedStudies() {
+if (window.location.href.includes("home.html")) {
+  // Assuming fetchOwnStudies returns a Promise
+  console.log("fetching studies");
+
+  displayOwnStudies();
+} else {
+  const studiesToDisplay = localStorage.getItem("studiesToDisplay");
+  if (studiesToDisplay !== null) {
+    displayFriendStudies(studiesToDisplay);
+  }
+}
+
+// function displayFriendStudies(username) {
+//   let studies = fetchFriendStudies(username);
+//   displayOwnStudies(studies);
+// }
+
+async function displayOwnStudies() {
+  let studies = null;
+  try {
+    studies = await fetchOwnStudies();
+    // Now you can work with the 'studies' data
+    console.log(studies);
+  } catch (error) {
+    // Handle errors if needed
+    console.error("Error in fetchData:", error);
+  }
+
   const studiesList = document.getElementById("studies-list");
+  if (studiesList !== null) {
+    studiesList.innerHTML = "";
 
-  // Clear the current list to avoid duplicates
-  studiesList.innerHTML = "";
-
-  // Retrieve saved data from localStorage
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-
-    if (key.startsWith(`${localStorage.getItem("studiesToDisplay")}-study-`)) {
-      const data = JSON.parse(localStorage.getItem(key));
-      studiesList.appendChild(createStudyElement(key, data));
+    for (study of studies) {
+      studiesList.appendChild(createStudyElement(study));
     }
   }
 }
 
-function createStudyElement(key, data) {
-  // Extract the timestamp from the key
-  const timestamp = key.replace(
-    `${localStorage.getItem("studiesToDisplay")}-study-`,
-    ""
-  );
+function fetchFriendStudies(friendUsername) {
+  const token = localStorage.getItem("token");
+
+  // Make a GET request to retrieve your friend's studies
+  fetch(`/api/getStudies/${friendUsername}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((studies) => {
+      // Handle the retrieved studies as needed
+      console.log(`Retrieved studies for ${friendUsername}:`, studies);
+    })
+    .catch((error) => {
+      console.error("Error fetching studies:", error);
+    });
+}
+
+async function fetchOwnStudies() {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`/api/getStudies/asdf`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const studies = await response.json();
+    console.log("Retrieved your own studies:", studies);
+    return studies;
+  } catch (error) {
+    console.error("Error fetching studies:", error);
+    throw error; // Propagate the error so the caller can handle it if needed
+  }
+}
+
+function createStudyElement(study) {
   // Create a new item container for each saved study
   const studyContainer = document.createElement("div");
   studyContainer.classList.add("item-container");
 
   // Create a header element to display the date
   const dateHeader = document.createElement("h3");
-  dateHeader.textContent = new Date(parseInt(timestamp)).toLocaleString();
+  dateHeader.textContent = study.timestamp.toLocaleString();
 
   // Create a header element for notes
   const notesHeader = document.createElement("h4");
@@ -36,7 +102,7 @@ function createStudyElement(key, data) {
 
   // Create a paragraph element to display the notes
   const notesParagraph = document.createElement("p");
-  notesParagraph.textContent = data.notes;
+  notesParagraph.textContent = study.note;
 
   // Create a header element for links
   const linksHeader = document.createElement("h4");
@@ -49,7 +115,7 @@ function createStudyElement(key, data) {
   studyContainer.appendChild(linksHeader);
 
   // Create link elements for each saved link
-  data.links.forEach(function (link) {
+  study.links.forEach(function (link) {
     if (link.trim() !== "") {
       const linkElement = document.createElement("a");
       linkElement.href = link;
@@ -61,14 +127,3 @@ function createStudyElement(key, data) {
   });
   return studyContainer;
 }
-
-if (window.location.href.includes("home.html")) {
-  localStorage.setItem("studiesToDisplay", localStorage.getItem("username"));
-} else if (window.location.href.includes("explore.html")) {
-  if (
-    localStorage.getItem("username") == localStorage.getItem("studiesToDisplay")
-  ) {
-    localStorage.setItem("studiesToDisplay", localStorage.getItem(""));
-  }
-}
-displaySavedStudies();

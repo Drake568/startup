@@ -12,6 +12,7 @@ function registerUser(user) {
 }
 
 function getUser(username) {
+  let i = 0;
   return userMap.get(username) || null;
 }
 

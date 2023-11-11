@@ -1,24 +1,30 @@
 // studyService.js
 
+const { json } = require("body-parser");
+
 // updateScores considers a new score for inclusion in the high scores.
 // The high scores are saved in memory and disappear whenever the service is restarted.
 let studyMap = new Map();
 
-function addStudyToMap(study) {
-  if (!studyMap.has(study.associatedUser)) {
-    studyMap.set(study.associatedUser, new Set([study]));
+function addStudyToMap(data) {
+  let username = data.study.associatedUser;
+  if (!studyMap.has(username)) {
+    studyMap.set(username, new Set([data.study]));
   } else {
-    studyMap.get(study.associatedUser).add(study);
+    studyMap.get(username).add(data.study);
   }
 }
 
 function getStudies(username, shared = true) {
   const studiesSet = studyMap.get(username);
+  return [...studiesSet];
+}
 
+function getFriendStudies(username) {
+  const studiesSet = studyMap.get(username);
   if (studiesSet) {
-    // Convert Set to array and optionally filter by shared
     const studiesArray = [...studiesSet].filter((study) =>
-      shared ? true : !study.isPrivate
+      shared ? true : false
     );
     return studiesArray;
   } else {

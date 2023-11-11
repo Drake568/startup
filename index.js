@@ -51,12 +51,22 @@ apiRouter.post("/addStudy", (req, res) => {
 });
 
 // Endpoint to get studies
-apiRouter.get("/getStudies/:username/:shared?", (req, res) => {
+apiRouter.get("/getStudies/:username", authenticateToken, (req, res) => {
   try {
-    const username = req.params.username;
-    const shared = req.params.shared === "true";
-    const studies = studyService.getStudies(username, shared);
-    res.json(studies);
+    const authenticatedUsername = req.user.username;
+    const requestedUsername = req.params.username;
+
+    if (authenticatedUsername === requestedUsername) {
+      const studies = studyService.getStudies(requestedUsername);
+      res.json(studies);
+    } else {
+      if (friendService.areFriends(authenticatedUsername, requestedUsername)) {
+        const studies = studyService.getFriendStudies(requestedUsername); // Only return shared studies
+        res.json(studies);
+      } else {
+        res.status(403).json({ error: "Forbidden" });
+      }
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -82,9 +92,11 @@ apiRouter.post("/registerUser", (req, res) => {
   try {
     const newUser = req.body;
     const registrationResult = userService.registerUser(newUser);
+    const username = newUser.username;
 
     if (registrationResult) {
-      res.json({ message: "User registered successfully" });
+      const token = jwt.sign({ username }, secretKey);
+      res.json({ message: "User registered successfully", token });
     } else {
       res.status(400).json({ error: "Username already exists" });
     }
@@ -197,3 +209,5 @@ app.use((_req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+// module.exports = app;
