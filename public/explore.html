@@ -24,7 +24,7 @@
             <li class="nav-item"><a href="home.html">Home</a></li>
             <li class="nav-item"><a href="compose.html">Compose</a></li>
             <li class="nav-item"><a href="explore.html">Explore</a></li>
-            <li class="nav-item"><a href="index.html">Logout</a></li>
+            <li class="nav-item"><a href="index.html" id="logoutLink">Logout</a></li>
           </menu>
         </nav>
       </div>
@@ -33,10 +33,10 @@
     <main>
       <div class="items-view">
         <div class="explore-filter-container">
-          <h2>User Search</h2>
+          <h3>Add Friend</h3>
             <div class="search-container">
-              <input type="text" id="search-input" placeholder="Search by username or name" />
-              <button onclick="searchUsers()">Search</button>
+              <input type="text" id="search-input" placeholder="input username" />
+              <button onclick="addFriendRequest()">Add</button>
             </div>
           <div id="search-results"></div>
           <h3>Friend list</h3>
@@ -63,6 +63,8 @@
     <hr />
     <span class="text-reset">Jacob Drake</span>
     <a href="https://github.com/Drake568/startup">GitHub</a>
+    <br />
+    <span class="verse" id="verse"></span>
   </footer>
   <script src="javascript/explore.js"></script>
   <script src="javascript/displayStudies.js" ></script>

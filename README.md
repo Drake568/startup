@@ -71,3 +71,13 @@ For this deliverable I added JavaScript to the application. I added the followin
 - **JavaScript support for future database data** - Built out logic for getting and posting data to local storage. Will simply replace with the database later.
 - **JavaScript support for future WebSocket** - Added placeholder logic for friend requests.
 - **JavaScript support for your application's interaction logic** - Added JavaScript to handle all functions of the application.
+
+## Service deliverable
+
+For this deliverable I added backend endpoints for everything that will use the database as well as a third party endpoint.
+
+- **Node.js/Express HTTP service** - done
+- **Static middleware for frontend** - done. I used the express.static to serve the frontend files, the express.json to parse the request body, and jwt to create and verify an authtoken.
+- **Calls to third party endpoints** - done. I used a bible api to get a verse of the day shown in the footer.
+- **Backend service endpoints** - done. Added a ton of endpoints for all the different functions of the application. For now all application data is stored in the server memory. I will replace this with a database later.
+- **Frontend calls service endpoints** - I did this using the fetch function.
