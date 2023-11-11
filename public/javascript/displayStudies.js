@@ -1,7 +1,4 @@
 if (window.location.href.includes("home.html")) {
-  // Assuming fetchOwnStudies returns a Promise
-  console.log("fetching studies");
-
   displayStudies(localStorage.getItem("username"));
 } else {
   const studiesToDisplay = localStorage.getItem("studiesToDisplay");
@@ -14,10 +11,8 @@ async function displayStudies(username) {
   let studies = null;
   try {
     studies = await fetchStudies(username);
-    // Now you can work with the 'studies' data
     console.log(studies);
   } catch (error) {
-    // Handle errors if needed
     console.error("Error in fetchData:", error);
   }
 

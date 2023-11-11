@@ -17,6 +17,9 @@ function addStudyToMap(data) {
 
 function getStudies(username, shared = true) {
   const studiesSet = studyMap.get(username);
+  if (!studiesSet) {
+    return [];
+  }
   return [...studiesSet];
 }
 

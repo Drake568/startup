@@ -1,5 +1,5 @@
 // Get the "name" from local storage
-const storedName = localStorage.getItem("name");
+const storedName = localStorage.getItem("username");
 
 // Update the header with the stored name
 const headerName = document.getElementById("header-name");
