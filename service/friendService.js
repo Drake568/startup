@@ -1,62 +1,82 @@
-const userService = require("./userService"); // Import your userService
+const userService = require("./userService");
+const DB = require("../database.js");
 
-let friendMap = new Map();
-let friendRequests = new Map();
-
-function addFriendRequest(sender, receiver) {
-  if (!friendRequests.has(receiver)) {
-    friendRequests.set(receiver, new Set([sender]));
-  } else {
-    friendRequests.get(receiver).add(sender);
+async function addFriendRequest(sender, receiver) {
+  try {
+    const friendRequest = { from: sender, to: receiver };
+    const response = await DB.addFriendRequest(friendRequest);
+    console.log("Friend request saved to the database.");
+    return response;
+  } catch (error) {
+    console.error("Error saving friend request to the database:", error);
   }
 }
 
-function acceptFriendRequest(sender, receiver) {
-  if (friendRequests.has(receiver)) {
-    friendRequests.get(receiver).delete(sender);
-  }
-  addFriend(sender, receiver);
-}
+async function acceptFriendRequest(sender, receiver) {
+  try {
+    const userA = await userService.getUser(sender);
+    const userB = await userService.getUser(receiver);
+    const addedA = await DB.addFriend(userA.username, userB.username);
+    const addedB = await DB.addFriend(userB.username, userA.username);
+    const requestRemoved = await DB.removeFriendRequest(sender, receiver);
 
-function rejectFriendRequest(sender, receiver) {
-  if (friendRequests.has(receiver)) {
-    friendRequests.get(receiver).delete(sender);
-  }
-}
-
-function addFriend(userA, userB) {
-  if (!friendMap.has(userA)) {
-    friendMap.set(userA, new Set([userB]));
-  } else {
-    friendMap.get(userA).add(userB);
-  }
-
-  if (!friendMap.has(userB)) {
-    friendMap.set(userB, new Set([userA]));
-  } else {
-    friendMap.get(userB).add(userA);
+    if (addedA && addedB && requestRemoved) {
+      return { success: true, message: "Friend request accepted" };
+    } else {
+      return { success: false, message: "Error accepting friend request" };
+    }
+  } catch (error) {
+    console.error("Error accepting friend request:", error);
+    return { success: false, message: "Error accepting friend request" };
   }
 }
 
-function getFriends(username) {
-  return friendMap.get(username) || new Set();
+async function rejectFriendRequest(sender, receiver) {
+  try {
+    const requestRemoved = await DB.removeFriendRequest(sender, receiver);
+    if (requestRemoved) {
+      return { success: true, message: "Friend request rejected" };
+    } else {
+      return { success: false, message: "Error rejecting friend request" };
+    }
+  } catch (error) {
+    console.error("Error rejecting friend request:", error);
+    return { success: false, message: "Error rejecting friend request" };
+  }
 }
 
-function areFriends(userA, userB) {
-  const userAFriends = friendMap.get(userA) || new Set();
-  return userAFriends.has(userB);
+async function getFriendRequests(username) {
+  try {
+    const requests = await DB.getFriendRequests(username);
+    console.log("Friend requests retrieved from the database.");
+    return requests;
+  } catch (error) {
+    console.error("Error retrieving friend requests from the database:", error);
+    return undefined;
+  }
 }
 
-function getFriendRequests(username) {
-  return friendRequests.get(username) || new Set();
+async function areFriends(userA, userB) {
+  try {
+    const user = await userService.getUser(userA);
+    if (user.friends.includes(userB)) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(
+      "Error retrieving friendship status from the database:",
+      error
+    );
+    return undefined;
+  }
 }
 
 module.exports = {
-  addFriend,
-  getFriends,
-  areFriends,
   addFriendRequest,
   acceptFriendRequest,
   rejectFriendRequest,
   getFriendRequests,
+  areFriends,
 };
