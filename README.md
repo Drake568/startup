@@ -81,3 +81,11 @@ For this deliverable I added backend endpoints for everything that will use the 
 - **Calls to third party endpoints** - done. I used a bible api to get a verse of the day shown in the footer.
 - **Backend service endpoints** - done. Added a ton of endpoints for all the different functions of the application. For now all application data is stored in the server memory. I will replace this with a database later.
 - **Frontend calls service endpoints** - I did this using the fetch function.
+
+## DB deliverable
+
+For this deliverable I hooked up a mongo database to my application.
+
+- **MongoDB Atlas database created** - done!
+- **Endpoints for data** - The services my endpoints hit now store the data in the database rather than locally on the server.
+- **Stores data in MongoDB** - done!
