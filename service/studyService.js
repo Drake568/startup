@@ -2,20 +2,9 @@
 
 const DB = require("../database.js");
 
-let studyMap = new Map();
-
-async function addStudyToMap(data) {
+async function saveStudy(data) {
   const studyData = data.study;
-
-  let username = studyData.associatedUser;
-  if (!studyMap.has(username)) {
-    studyMap.set(username, new Set([studyData]));
-  } else {
-    studyMap.get(username).add(studyData);
-  }
-
   try {
-    // Save the study to the database
     await DB.addStudy(studyData);
     console.log("Study saved to the database.");
   } catch (error) {
@@ -23,28 +12,33 @@ async function addStudyToMap(data) {
   }
 }
 
-function getStudies(username, shared = true) {
-  const studiesSet = studyMap.get(username);
-  if (!studiesSet) {
-    return [];
-  }
-  return [...studiesSet];
-}
+// function getStudies(username, friend) {
 
-function getFriendStudies(username) {
-  const studiesSet = studyMap.get(username);
-  if (studiesSet) {
-    const studiesArray = [...studiesSet].filter((study) =>
-      study.shared ? true : false
-    );
-    return studiesArray;
-  } else {
-    console.error("Username not found.");
-    return [];
+// }
+
+async function getStudies(username) {
+  try {
+    const studies = await DB.getStudies(username);
+    console.log("Studies retrieved from the database.");
+    return studies;
+  } catch (error) {
+    console.error("Error retrieving studies from the database:", error);
+    return undefined;
   }
 }
 
-function updateStudy(username, studyId, newNote, newLinks) {
+async function getFriendStudies(username) {
+  try {
+    const studies = await DB.getFriendStudies(username);
+    console.log("Friend studies retrieved from the database.");
+    return studies;
+  } catch (error) {
+    console.error("Error retrieving friend studies from the database:", error);
+    return undefined;
+  }
+}
+
+async function updateStudy(username, studyId, newNote, newLinks) {
   const studiesSet = studyMap.get(username);
 
   if (studiesSet) {
@@ -68,7 +62,7 @@ function updateStudy(username, studyId, newNote, newLinks) {
 }
 
 module.exports = {
-  addStudyToMap,
+  addStudyToMap: saveStudy,
   getStudies,
   updateStudy,
   getFriendStudies,

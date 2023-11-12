@@ -51,17 +51,17 @@ apiRouter.post("/addStudy", (req, res) => {
 });
 
 // Endpoint to get studies
-apiRouter.get("/getStudies/:username", authenticateToken, (req, res) => {
+apiRouter.get("/getStudies/:username", authenticateToken, async (req, res) => {
   try {
     const authenticatedUsername = req.user.username;
     const requestedUsername = req.params.username;
 
     if (authenticatedUsername === requestedUsername) {
-      const studies = studyService.getStudies(requestedUsername);
+      const studies = await studyService.getStudies(requestedUsername);
       res.json(studies);
     } else {
       if (friendService.areFriends(authenticatedUsername, requestedUsername)) {
-        const studies = studyService.getFriendStudies(requestedUsername);
+        const studies = await studyService.getFriendStudies(requestedUsername);
         res.json(studies);
       } else {
         res.status(403).json({ error: "Forbidden" });
@@ -88,7 +88,7 @@ apiRouter.put("/updateStudy/:username/:studyId", (req, res) => {
 });
 
 // Endpoint to register a new user
-apiRouter.post("/registerUser", (req, res) => {
+apiRouter.post("/registerUser", async (req, res) => {
   try {
     const newUser = req.body;
     const registrationResult = userService.registerUser(newUser);
@@ -107,7 +107,7 @@ apiRouter.post("/registerUser", (req, res) => {
 });
 
 // Endpoint to get user information
-apiRouter.get("/getUser/:username", (req, res) => {
+apiRouter.get("/getUser/:username", authenticateToken, async (req, res) => {
   try {
     const username = req.params.username;
     const user = userService.getUser(username);
@@ -145,7 +145,7 @@ apiRouter.put("/updateUser/:username", (req, res) => {
   }
 });
 
-apiRouter.post("/login", (req, res) => {
+apiRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const loginResult = loginService.loginUser(username, password);
@@ -215,7 +215,7 @@ apiRouter.post("/addFriend/:userA/:userB", (req, res) => {
   }
 });
 
-apiRouter.get("/getFriends/:username", (req, res) => {
+apiRouter.get("/getFriends/:username", authenticateToken, async (req, res) => {
   try {
     const username = req.params.username;
     const friends = friendService.getFriends(username);
@@ -226,28 +226,36 @@ apiRouter.get("/getFriends/:username", (req, res) => {
   }
 });
 
-apiRouter.get("/areFriends/:userA/:userB", (req, res) => {
-  try {
-    const userA = req.params.userA;
-    const userB = req.params.userB;
-    const result = friendService.areFriends(userA, userB);
-    res.json({ areFriends: result });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+apiRouter.get(
+  "/areFriends/:userA/:userB",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const userA = req.params.userA;
+      const userB = req.params.userB;
+      const result = friendService.areFriends(userA, userB);
+      res.json({ areFriends: result });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
-apiRouter.get("/getFriendRequests/:username", (req, res) => {
-  try {
-    const username = req.params.username;
-    const friendRequests = friendService.getFriendRequests(username);
-    res.json([...friendRequests]); // Convert set to array for response
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
+apiRouter.get(
+  "/getFriendRequests/:username",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const username = req.params.username;
+      const friendRequests = friendService.getFriendRequests(username);
+      res.json([...friendRequests]); // Convert set to array for response
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
