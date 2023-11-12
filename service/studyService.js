@@ -1,17 +1,25 @@
 // studyService.js
 
-const { json } = require("body-parser");
+const DB = require("../database.js");
 
-// updateScores considers a new score for inclusion in the high scores.
-// The high scores are saved in memory and disappear whenever the service is restarted.
 let studyMap = new Map();
 
-function addStudyToMap(data) {
-  let username = data.study.associatedUser;
+async function addStudyToMap(data) {
+  const studyData = data.study;
+
+  let username = studyData.associatedUser;
   if (!studyMap.has(username)) {
-    studyMap.set(username, new Set([data.study]));
+    studyMap.set(username, new Set([studyData]));
   } else {
-    studyMap.get(username).add(data.study);
+    studyMap.get(username).add(studyData);
+  }
+
+  try {
+    // Save the study to the database
+    await DB.addStudy(studyData);
+    console.log("Study saved to the database.");
+  } catch (error) {
+    console.error("Error saving study to the database:", error);
   }
 }
 
