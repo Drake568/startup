@@ -30,7 +30,32 @@ async function addUser(user) {
 }
 
 async function addFriendRequest(request) {
+  // Check if the friend request already exists in the database
+  const existingRequest = await friendRequestCollection.findOne({
+    from: request.from,
+    to: request.to,
+  });
+
+  // If the request already exists, return an appropriate response
+  if (existingRequest) {
+    return { success: false, message: "Friend request already exists" };
+  }
+
+  // If the request doesn't exist, insert it into the database
   const result = await friendRequestCollection.insertOne(request);
+
+  return {
+    success: true,
+    message: "Friend request added successfully",
+    result,
+  };
+}
+
+async function removeFriendRequest(sender, receiver) {
+  const result = await friendRequestCollection.deleteOne({
+    from: sender,
+    to: receiver,
+  });
   return result;
 }
 
@@ -48,11 +73,12 @@ async function getFriendStudies(username) {
   return result;
 }
 
-async function getFriendRequests(sender, receiver) {
-  const result = await friendRequestCollection.findOne({
-    to: receiver,
-    from: sender,
-  });
+async function getFriendRequests(receiver) {
+  const result = await friendRequestCollection
+    .find({
+      to: receiver,
+    })
+    .toArray();
   return result;
 }
 
@@ -66,6 +92,15 @@ async function usernameExists(username) {
   return !!existingUser; // Returns true if the username exists, false if not.
 }
 
+async function addFriend(username, newFriend) {
+  const updatedUser = await userCollection.findOneAndUpdate(
+    { username: username },
+    { $addToSet: { friends: newFriend } }
+  );
+
+  return !!updatedUser; // Check if the updated document exists
+}
+
 module.exports = {
   addStudy,
   addFriendRequest,
@@ -75,4 +110,6 @@ module.exports = {
   getFriendRequests,
   getUser,
   usernameExists,
+  addFriend,
+  removeFriendRequest,
 };

@@ -43,7 +43,6 @@ async function fetchStudies(userName) {
     }
 
     const studies = await response.json();
-    console.log("Retrieved your own studies:", studies);
     return studies;
   } catch (error) {
     console.error("Error fetching studies:", error);

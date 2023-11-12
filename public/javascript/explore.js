@@ -1,6 +1,6 @@
 displayFriends();
 
-function addFriendRequest() {
+async function addFriendRequest() {
   const searchInput = document.getElementById("search-input");
   if (searchInput.value === "" || searchInput.value === null) {
     alert("Please enter a username to send a friend request to.");
@@ -9,7 +9,7 @@ function addFriendRequest() {
     alert("You cannot send a friend request to yourself.");
     return;
   }
-  sendFriendRequest(localStorage.getItem("username"), searchInput.value);
+  await sendFriendRequest(localStorage.getItem("username"), searchInput.value);
 }
 
 async function sendFriendRequest(sender, receiver) {
@@ -20,6 +20,7 @@ async function sendFriendRequest(sender, receiver) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
         },
       }
     );
@@ -43,30 +44,30 @@ async function sendFriendRequest(sender, receiver) {
   }
 }
 
-async function getFriends(username) {
-  try {
-    const response = await fetch(`/api/getFriends/${username}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) {
-      const friends = await response.json();
-      console.log("Friends:", friends);
-      return friends;
-    } else {
-      const data = await response.json();
-      console.error(data.error);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-}
+// async function getFriends(username) {
+//   try {
+//     const response = await fetch(`/api/getFriends/${username}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     if (response.ok) {
+//       const friends = await response.json();
+//       console.log("Friends:", friends);
+//       return friends;
+//     } else {
+//       const data = await response.json();
+//       console.error(data.error);
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//     throw error;
+//   }
+// }
 
-async function displayFriends() {
-  const friends = await getFriends(localStorage.getItem("username"));
+function displayFriends() {
+  const friends = JSON.parse(localStorage.getItem("friends"));
   const friendList = document.getElementById("friendList");
 
   for (let i = 0; i < friends.length; i++) {

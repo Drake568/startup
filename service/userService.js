@@ -1,8 +1,4 @@
-// userService.js
-
 const DB = require("../database.js");
-
-let userMap = new Map();
 
 async function registerUser(user) {
   try {
@@ -30,23 +26,9 @@ async function getUser(username) {
   }
 }
 
-function updateUser(username, newEmail, newPassword) {
-  const user = userMap.get(username);
-
-  if (user) {
-    // Update the properties if they are provided
-    if (newEmail !== undefined) {
-      user.email = newEmail;
-    }
-
-    if (newPassword !== undefined) {
-      user.password = newPassword;
-    }
-    return true; // Update successful
-  } else {
-    return false; // User not found
-  }
-}
+// function updateUser(username, newEmail, newPassword) {
+// TODO: need to add functionality for DB and UI
+// }
 
 async function checkUserExists(username) {
   try {
@@ -62,6 +44,5 @@ async function checkUserExists(username) {
 module.exports = {
   registerUser,
   getUser,
-  updateUser,
   checkUserExists,
 };

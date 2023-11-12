@@ -23,7 +23,12 @@ function register() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password, email }),
+    body: JSON.stringify({
+      username: username,
+      password: password,
+      email: email,
+      friends: [],
+    }),
   })
     .then((response) => {
       if (!response.ok) {
@@ -36,6 +41,7 @@ function register() {
       alert("User registered successfully");
       localStorage.setItem("username", username);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("friends", JSON.stringify([]));
       window.location.href = "home.html";
     })
     .catch((error) => {

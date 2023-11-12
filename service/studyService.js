@@ -12,10 +12,6 @@ async function saveStudy(data) {
   }
 }
 
-// function getStudies(username, friend) {
-
-// }
-
 async function getStudies(username) {
   try {
     const studies = await DB.getStudies(username);
@@ -38,32 +34,11 @@ async function getFriendStudies(username) {
   }
 }
 
-async function updateStudy(username, studyId, newNote, newLinks) {
-  const studiesSet = studyMap.get(username);
-
-  if (studiesSet) {
-    const studyToUpdate = [...studiesSet].find((study) => study.id === studyId);
-
-    if (studyToUpdate) {
-      // Update the properties if they are provided
-      if (newNote !== undefined) {
-        studyToUpdate.note = newNote;
-      }
-
-      if (newLinks !== undefined) {
-        studyToUpdate.links = newLinks;
-      }
-    } else {
-      console.error("Study not found with the given ID.");
-    }
-  } else {
-    console.error("Username not found.");
-  }
-}
+// async function updateStudy(username, studyId, newNote, newLinks) { //TODO: need to add functionality for DB and UI
+// }
 
 module.exports = {
   addStudyToMap: saveStudy,
   getStudies,
-  updateStudy,
   getFriendStudies,
 };
