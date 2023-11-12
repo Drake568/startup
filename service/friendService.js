@@ -1,4 +1,6 @@
-const userService = require("./userService"); // Import your userService
+const userService = require("./userService");
+
+const DB = require("../database.js");
 
 let friendMap = new Map();
 let friendRequests = new Map();

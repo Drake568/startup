@@ -34,4 +34,45 @@ async function addFriendRequest(request) {
   return result;
 }
 
-module.exports = { addStudy, addFriendRequest, addUser };
+async function getStudies(username) {
+  const result = await studyCollection
+    .find({ associatedUser: username })
+    .toArray();
+  return result;
+}
+
+async function getFriendStudies(username) {
+  const result = await studyCollection
+    .find({ associatedUser: username, shared: true })
+    .toArray();
+  return result;
+}
+
+async function getFriendRequests(sender, receiver) {
+  const result = await friendRequestCollection.findOne({
+    to: receiver,
+    from: sender,
+  });
+  return result;
+}
+
+async function getUser(username) {
+  const result = await userCollection.findOne({ username: username });
+  return result;
+}
+
+async function usernameExists(username) {
+  const existingUser = await userCollection.findOne({ username: username });
+  return !!existingUser; // Returns true if the username exists, false if not.
+}
+
+module.exports = {
+  addStudy,
+  addFriendRequest,
+  addUser,
+  getStudies,
+  getFriendStudies,
+  getFriendRequests,
+  getUser,
+  usernameExists,
+};
