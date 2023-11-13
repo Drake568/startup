@@ -20,7 +20,6 @@ async function sendFriendRequest(sender, receiver) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
         },
       }
     );

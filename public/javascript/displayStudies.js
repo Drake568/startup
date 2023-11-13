@@ -34,7 +34,6 @@ async function fetchStudies(userName) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
       },
     });
 

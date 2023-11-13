@@ -41,7 +41,6 @@ async function getFriendRequests() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
         },
       }
     );
@@ -68,7 +67,6 @@ async function acceptFriendRequest(requester) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
         },
       }
     );
@@ -97,7 +95,6 @@ async function rejectFriendRequest(requester) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
         },
       }
     );
