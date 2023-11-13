@@ -1,17 +1,27 @@
 const DB = require("../database.js");
+const bcrypt = require("bcrypt");
 
 async function registerUser(user) {
   try {
+    // Check if the username already exists
     const exists = await checkUserExists(user.username);
     if (exists) {
-      return false;
+      return false; // Username already exists
     }
+
+    // Hash the user's password with bcrypt
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
+    // Replace the user's password with the hashed password
+    user.password = hashedPassword;
+
+    // Save the user to the database
     await DB.addUser(user);
     console.log("User saved to the database.");
-    return true;
+    return true; // Registration successful
   } catch (error) {
     console.error("Error registering user:", error);
-    return false;
+    return false; // Registration failed
   }
 }
 

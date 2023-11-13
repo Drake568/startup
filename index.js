@@ -6,12 +6,14 @@ const userService = require("./service/userService");
 const friendService = require("./service/friendService");
 const loginService = require("./service/loginService");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT || 4000;
 const secretKey = "niExQ5k8jYASvh1tFwM5";
 
 app.use(bodyParser.json());
+app.use(cookieParser()); // Use cookie-parser middleware
 
 // Serve up the front-end static content hosting
 app.use(express.static("public"));
@@ -20,9 +22,9 @@ app.use(express.static("public"));
 const apiRouter = express.Router();
 app.use("/api", apiRouter);
 
-// Middleware to check if the request has a valid token
+// Middleware to check if the request has a valid token from the cookie
 function authenticateToken(req, res, next) {
-  const token = req.header("Authorization");
+  const token = req.cookies.token; // Use cookie instead of header
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -39,7 +41,7 @@ function authenticateToken(req, res, next) {
 }
 
 // Endpoint to add a study
-apiRouter.post("/addStudy", (req, res) => {
+apiRouter.post("/addStudy", authenticateToken, (req, res) => {
   try {
     const newStudy = req.body;
     studyService.addStudyToMap(newStudy);
@@ -59,13 +61,13 @@ apiRouter.get("/getStudies/:username", authenticateToken, async (req, res) => {
     if (authenticatedUsername === requestedUsername) {
       const studies = await studyService.getStudies(requestedUsername);
       res.json(studies);
+    } else if (
+      friendService.areFriends(authenticatedUsername, requestedUsername)
+    ) {
+      const studies = await studyService.getFriendStudies(requestedUsername);
+      res.json(studies);
     } else {
-      if (friendService.areFriends(authenticatedUsername, requestedUsername)) {
-        const studies = await studyService.getFriendStudies(requestedUsername);
-        res.json(studies);
-      } else {
-        res.status(403).json({ error: "Forbidden" });
-      }
+      res.status(403).json({ error: "Forbidden" });
     }
   } catch (error) {
     console.error(error);
@@ -73,30 +75,21 @@ apiRouter.get("/getStudies/:username", authenticateToken, async (req, res) => {
   }
 });
 
-// Endpoint to update a study
-// apiRouter.put("/updateStudy/:username/:studyId", (req, res) => {
-//   try {
-//     const username = req.params.username;
-//     const studyId = parseInt(req.params.studyId);
-//     const { newNote, newLinks } = req.body;
-//     studyService.updateStudy(username, studyId, newNote, newLinks);
-//     res.json({ message: "Study updated successfully" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
 // Endpoint to register a new user
 apiRouter.post("/registerUser", async (req, res) => {
   try {
     const newUser = req.body;
-    const registrationResult = userService.registerUser(newUser);
+    const registrationResult = await userService.registerUser(newUser);
     const username = newUser.username;
 
     if (registrationResult) {
       const token = jwt.sign({ username }, secretKey);
-      res.json({ message: "User registered successfully", token });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // Enable in production for HTTPS
+        sameSite: "strict",
+      });
+      res.json({ message: "User registered successfully" });
     } else {
       res.status(400).json({ error: "Username already exists" });
     }
@@ -106,56 +99,22 @@ apiRouter.post("/registerUser", async (req, res) => {
   }
 });
 
-// Endpoint to get user information
-// apiRouter.get("/getUser/:username", authenticateToken, async (req, res) => {
-//   try {
-//     const username = req.params.username;
-//     const user = userService.getUser(username);
-
-//     if (user) {
-//       res.json(user);
-//     } else {
-//       res.status(404).json({ error: "User not found" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
-// Endpoint to update user information
-// apiRouter.put("/updateUser/:username", (req, res) => {
-//   try {
-//     const username = req.params.username;
-//     const { newEmail, newPassword } = req.body;
-//     const updateResult = userService.updateUser(
-//       username,
-//       newEmail,
-//       newPassword
-//     );
-
-//     if (updateResult) {
-//       res.json({ message: "User updated successfully" });
-//     } else {
-//       res.status(404).json({ error: "User not found" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-
 apiRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const loginResult = await loginService.loginUser(username, password);
 
     if (loginResult) {
-      // Create a token and send it in the response
+      // Create a token and set it as an HTTP-only cookie
       const token = jwt.sign({ username }, secretKey);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true, // Enable in production for HTTPS
+        sameSite: "strict",
+      });
+
       res.json({
         message: "Login successful",
-        token: token,
         friends: loginResult,
       });
     } else {
@@ -271,3 +230,56 @@ app.listen(port, () => {
 });
 
 // module.exports = app;
+
+// Endpoint to get user information
+// apiRouter.get("/getUser/:username", authenticateToken, async (req, res) => {
+//   try {
+//     const username = req.params.username;
+//     const user = userService.getUser(username);
+
+//     if (user) {
+//       res.json(user);
+//     } else {
+//       res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+// Endpoint to update user information
+// apiRouter.put("/updateUser/:username", (req, res) => {
+//   try {
+//     const username = req.params.username;
+//     const { newEmail, newPassword } = req.body;
+//     const updateResult = userService.updateUser(
+//       username,
+//       newEmail,
+//       newPassword
+//     );
+
+//     if (updateResult) {
+//       res.json({ message: "User updated successfully" });
+//     } else {
+//       res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+// Endpoint to update a study
+// apiRouter.put("/updateStudy/:username/:studyId", (req, res) => {
+//   try {
+//     const username = req.params.username;
+//     const studyId = parseInt(req.params.studyId);
+//     const { newNote, newLinks } = req.body;
+//     studyService.updateStudy(username, studyId, newNote, newLinks);
+//     res.json({ message: "Study updated successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });

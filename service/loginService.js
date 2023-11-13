@@ -1,15 +1,20 @@
 const userService = require("./userService");
+const bcrypt = require("bcrypt");
 const DB = require("../database.js");
 
 async function loginUser(username, password) {
   const user = await userService.getUser(username);
 
-  if (user && user.password === password) {
-    const data = user.friends;
-    return data; // Login successful
-  } else {
-    return false; // Invalid username or password
+  if (user) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      const data = user.friends;
+      return data; // Login successful
+    }
   }
+
+  return false; // Invalid username or password
 }
 
 module.exports = {

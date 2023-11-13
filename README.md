@@ -89,3 +89,12 @@ For this deliverable I hooked up a mongo database to my application.
 - **MongoDB Atlas database created** - done!
 - **Endpoints for data** - The services my endpoints hit now store the data in the database rather than locally on the server.
 - **Stores data in MongoDB** - done!
+
+## Login deliverable
+
+I already had implemented a registration and authentication system for my application. I simply edited it for this deliverable.
+
+- **User registration** - Changed my current registration system to hash the password and store it in the database.
+- **existing user** - The hashed password is compared to the one in the database to authenticate the user.
+- **Use MongoDB to store credentials** - Done.
+- **Restricts functionality** - The only endpoints that are not protected by authentication are the login and register endpoints. I also changed my authentication to use a cookie rather than a header.

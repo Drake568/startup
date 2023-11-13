@@ -40,7 +40,6 @@ function register() {
       console.log(data); // Log registration response
       alert("User registered successfully");
       localStorage.setItem("username", username);
-      localStorage.setItem("token", data.token);
       localStorage.setItem("friends", JSON.stringify([]));
       window.location.href = "home.html";
     })

@@ -23,8 +23,6 @@ function verifyCredentials(username, password) {
       return response.json();
     })
     .then((data) => {
-      const token = data.token;
-      localStorage.setItem("token", token);
       localStorage.setItem("username", username);
       localStorage.setItem("friends", JSON.stringify(data.friends));
       window.location.href = "home.html";
