@@ -4,8 +4,9 @@ let socket = null;
 
 initializeWebSocket();
 
-async function initializeWebSocket() {
-  socket = new WebSocket("ws://localhost:4000");
+function initializeWebSocket() {
+  const protocol = window.location.protocol === "http:" ? "ws" : "wss";
+  socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
   socket.addEventListener("open", () => {
     console.log("WebSocket connection opened");
