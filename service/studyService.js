@@ -38,7 +38,7 @@ async function getFriendStudies(username) {
 // }
 
 module.exports = {
-  addStudyToMap: saveStudy,
+  saveStudy,
   getStudies,
   getFriendStudies,
 };

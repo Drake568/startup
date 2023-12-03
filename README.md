@@ -2,13 +2,13 @@
 
 [Notes Link](Notes/notes.md)
 
-# FaithPlates
+# SmallPlates
 
 ## Description deliverable
 
 ### Elevator pitch
 
-Do you want a good place to store your gospel study notes? Would you like a platform where you can create, see, and share your notes with friends and family? FaithPlates makes that possible. Your notes are stored in the cloud for easy access from any device. You can share your notes with friends and family. You can even see their notes and learn from them.
+Do you want a good place to store your gospel study notes? Would you like a platform where you can create, see, and share your notes with friends and family? SmallPlates makes that possible. Your notes are stored in the cloud for easy access from any device. You can share your notes with friends and family. You can even see their notes and learn from them.
 
 ### Design
 
@@ -98,3 +98,12 @@ I already had implemented a registration and authentication system for my applic
 - **existing user** - The hashed password is compared to the one in the database to authenticate the user.
 - **Use MongoDB to store credentials** - Done.
 - **Restricts functionality** - The only endpoints that are not protected by authentication are the login and register endpoints. I also changed my authentication to use a cookie rather than a header.
+
+## WebSocket deliverable
+
+For this deliverable I used webSocket to notify users of friend requests in real time. I plan to add a bit more later but this is a good start.
+
+- **Backend listens for WebSocket connection** - done!
+- **Frontend makes WebSocket connection** - done!
+- **Data sent over WebSocket connection** - done!
+- **WebSocket data displayed** - Friend requests are displayed in the notifications section of the home page. They pop up without the user having to refresh the page.
