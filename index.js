@@ -7,10 +7,20 @@ const friendService = require("./service/friendService");
 const loginService = require("./service/loginService");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const config = require("./authConfig.json");
+const http = require("http");
+const initializeWebSocketServer = require("./websocketServer.js");
 
 const app = express();
-const port = process.env.PORT || 4000;
-const secretKey = "niExQ5k8jYASvh1tFwM5";
+const httpServer = http.createServer(app);
+const httpPort = process.env.PORT || 4000;
+const secretKey = config.SecretKey;
+
+initializeWebSocketServer(httpServer);
+
+httpServer.listen(httpPort, () => {
+  console.log(`Server listening on port ${httpPort}`);
+});
 
 app.use(bodyParser.json());
 app.use(cookieParser()); // Use cookie-parser middleware
@@ -44,7 +54,7 @@ function authenticateToken(req, res, next) {
 apiRouter.post("/addStudy", authenticateToken, (req, res) => {
   try {
     const newStudy = req.body;
-    studyService.addStudyToMap(newStudy);
+    studyService.saveStudy(newStudy);
     res.json({ message: "Study added successfully" });
   } catch (error) {
     console.error(error);
@@ -223,10 +233,6 @@ apiRouter.get(
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile("index.html", { root: "public" });
-});
-
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
 });
 
 // module.exports = app;

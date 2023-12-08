@@ -1,6 +1,5 @@
 const userService = require("./userService");
 const bcrypt = require("bcrypt");
-const DB = require("../database.js");
 
 async function loginUser(username, password) {
   const user = await userService.getUser(username);

@@ -2,6 +2,50 @@ const notifications = document.getElementById("notifications");
 
 displayNotifications();
 
+let socket = null;
+
+initializeWebSocket();
+
+function initializeWebSocket() {
+  const protocol = window.location.protocol === "http:" ? "ws" : "wss";
+  socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+  socket.addEventListener("open", () => {
+    console.log("WebSocket connection opened");
+    socket.send(
+      JSON.stringify({
+        type: "login",
+        username: localStorage.getItem("username"),
+        friends: JSON.parse(localStorage.getItem("friends")),
+      })
+    );
+  });
+
+  socket.addEventListener("error", (error) => {
+    console.error("WebSocket error:", error);
+  });
+
+  socket.addEventListener("close", () => {
+    console.log("WebSocket connection closed");
+    // You can perform additional actions on connection close if needed
+  });
+
+  socket.addEventListener("message", (event) => {
+    try {
+      const data = JSON.parse(event.data);
+
+      switch (data.type) {
+        case "friendRequest":
+          console.log("Received friend request");
+          displayNotifications();
+          break;
+      }
+    } catch (error) {
+      console.error("Error parsing message:", error);
+    }
+  });
+}
+
 async function displayNotifications() {
   const friendRequests = await getFriendRequests();
   console.log("Friend Requests:", friendRequests);

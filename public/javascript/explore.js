@@ -1,5 +1,60 @@
 displayFriends();
 
+let socket = null;
+
+initializeWebSocket();
+
+function initializeWebSocket() {
+  const protocol = window.location.protocol === "http:" ? "ws" : "wss";
+  socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+  socket.addEventListener("open", () => {
+    console.log("WebSocket connection opened");
+    socket.send(
+      JSON.stringify({
+        type: "login",
+        username: localStorage.getItem("username"),
+        friends: JSON.parse(localStorage.getItem("friends")),
+      })
+    );
+  });
+
+  socket.addEventListener("error", (error) => {
+    console.error("WebSocket error:", error);
+  });
+
+  socket.addEventListener("close", () => {
+    console.log("WebSocket connection closed");
+    // You can perform additional actions on connection close if needed
+  });
+
+  socket.addEventListener("message", (event) => {
+    try {
+      const data = JSON.parse(event.data);
+
+      switch (data.type) {
+        case "friendRequest":
+          console.log("Received friend request");
+          // Trigger the get friend requests API call or handle as needed
+          break;
+        // Handle other message types as needed
+      }
+    } catch (error) {
+      console.error("Error parsing message:", error);
+    }
+  });
+}
+
+function sendFriendRequestNotification(friendUsername) {
+  console.log("Sending friend request notification");
+  socket.send(
+    JSON.stringify({
+      type: "friendRequest",
+      friendUsername,
+    })
+  );
+}
+
 async function addFriendRequest() {
   const searchInput = document.getElementById("search-input");
   if (searchInput.value === "" || searchInput.value === null) {
@@ -29,6 +84,7 @@ async function sendFriendRequest(sender, receiver) {
       const data = await response.json();
       console.log(data.message); // Access the message property in the response
       alert(data.message);
+      sendFriendRequestNotification(receiver);
     } else {
       // The request encountered an error (e.g., 404 Not Found)
       const data = await response.json();
