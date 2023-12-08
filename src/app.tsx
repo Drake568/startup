@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./app.scss";
+import "./app.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./views/login";
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ToastContainer />
-      <div className="body bg-dark text-light">
+      <div>
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/compose" element={<Compose />} />

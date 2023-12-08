@@ -60,11 +60,6 @@ button {
   font-weight: 525;
 }
 
-main {
-  display: flex;
-  flex-direction: row;
-}
-
 @media (max-width: 1000px) {
   header {
     flex-direction: column;

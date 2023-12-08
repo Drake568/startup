@@ -1,0 +1,10 @@
+.navbar-container {
+  position: fixed;
+  left: 0;
+  height: 100vh;
+  width: 140px;
+}
+
+.nav-body {
+  height: 100vh;
+}
