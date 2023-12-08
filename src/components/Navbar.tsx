@@ -12,52 +12,54 @@ const Navbar = ({ expanded, setExpanded }) => {
   const navigate = useNavigate();
   const [activeKey, setActiveKey] = React.useState("1");
   return (
-    <nav className="navbar-container">
-      <div>
-        <Sidenav
-          className="nav-body"
-          expanded={expanded}
-          defaultOpenKeys={["3", "4"]}
-        >
-          <Sidenav.Body>
-            <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              <Nav.Item
-                eventKey="1"
-                onClick={() => navigate("/home")}
-                icon={<DashboardIcon />}
-              >
-                Home
-              </Nav.Item>
-              <Nav.Item
-                eventKey="2"
-                onClick={() => navigate("/Compose")}
-                icon={<PlusIcon />}
-              >
-                Compose
-              </Nav.Item>
-              <Nav.Item
-                eventKey="3"
-                onClick={() => navigate("/explore")}
-                icon={<OthersIcon />}
-              >
-                Explore
-              </Nav.Item>
-              <Nav.Item
-                eventKey="4"
-                onClick={() => navigate("/login")}
-                icon={<ExitIcon />}
-              >
-                Logout
-              </Nav.Item>
-            </Nav>
-          </Sidenav.Body>
-          <Sidenav.Toggle
+    <div>
+      <nav className="navbar-container">
+        <div>
+          <Sidenav
+            className="nav-body"
             expanded={expanded}
-            onToggle={(expanded) => setExpanded(expanded)}
-          />
-        </Sidenav>
-      </div>
-    </nav>
+            defaultOpenKeys={["3", "4"]}
+          >
+            <Sidenav.Body>
+              <Nav activeKey={activeKey} onSelect={setActiveKey}>
+                <Nav.Item
+                  eventKey="1"
+                  onClick={() => navigate("/home")}
+                  icon={<DashboardIcon />}
+                >
+                  Home
+                </Nav.Item>
+                <Nav.Item
+                  eventKey="2"
+                  onClick={() => navigate("/Compose")}
+                  icon={<PlusIcon />}
+                >
+                  Compose
+                </Nav.Item>
+                <Nav.Item
+                  eventKey="3"
+                  onClick={() => navigate("/explore")}
+                  icon={<OthersIcon />}
+                >
+                  Explore
+                </Nav.Item>
+                <Nav.Item
+                  eventKey="4"
+                  onClick={() => navigate("/login")}
+                  icon={<ExitIcon />}
+                >
+                  Logout
+                </Nav.Item>
+              </Nav>
+            </Sidenav.Body>
+            <Sidenav.Toggle
+              expanded={expanded}
+              onToggle={(expanded) => setExpanded(expanded)}
+            />
+          </Sidenav>
+        </div>
+      </nav>
+    </div>
   );
 };
 

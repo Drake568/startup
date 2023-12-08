@@ -3,11 +3,25 @@ import "../css/home.css";
 import "rsuite/dist/rsuite.min.css";
 import Navbar from "../components/Navbar";
 import Split from "react-split";
-import { display, margin } from "@mui/system";
 import Iframe from "react-iframe";
+import { Box } from "@mui/joy";
+import Study from "../model/study";
+import StudiesGrid from "../components/StudiesGrid";
+
+const myStudy: Study = {
+  username: "john_doe",
+  note: "Study on React TypeScript",
+  links: ["https://example.com", "https://typescriptlang.org"],
+  shared: true,
+  timestamp: new Date(),
+};
 
 export function Home() {
   const [expanded, setExpanded] = React.useState(true);
+  const [url, setUrl] = React.useState(
+    "https://www.churchofjesuschrist.org/study/scriptures?lang=eng&platform=web"
+  );
+  const [studies, setStudies] = React.useState([myStudy, myStudy, myStudy]);
   return (
     <div className="home-container">
       <main>
@@ -18,15 +32,19 @@ export function Home() {
               className="left-split"
               style={{ marginLeft: expanded ? 147 : 71 }}
             >
-              <div className="left-split-content"></div>
+              <div className="left-split-content">
+                <Box sx={{ flexGrow: 1 }}>
+                  <StudiesGrid
+                    studies={studies}
+                    setUrl={url}
+                    edit={true}
+                  ></StudiesGrid>
+                </Box>
+              </div>
             </div>
             <div className="right-split">
               <div className="iframe-container">
-                <Iframe
-                  url="https://www.churchofjesuschrist.org/?lang=eng"
-                  width="100%"
-                  height="100%"
-                ></Iframe>
+                <Iframe url={url} width="100%" height="100%"></Iframe>
               </div>
             </div>
           </Split>
