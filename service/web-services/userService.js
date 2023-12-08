@@ -1,4 +1,4 @@
-const DB = require("../service/database.js");
+const DB = require("../database.js");
 const bcrypt = require("bcrypt");
 
 async function registerUser(user) {

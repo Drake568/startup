@@ -11,7 +11,6 @@ import { Home } from "./views/home";
 export default function App() {
   return (
     <BrowserRouter>
-      {window.location.pathname !== "/login" && <Navbar />}
       <div className="body bg-dark text-light">
         <Routes>
           <Route path="/home" element={<Home />} />
