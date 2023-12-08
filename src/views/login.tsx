@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import "../css/login.css";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
+import { Toast } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const isMissing = (value: string) => value === "";
 
@@ -14,10 +16,7 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
 
   function login() {
-    console.log("boop");
-    console.log(username);
     if (!verifyCredentials()) {
-      alert("Invalid credentials");
       return;
     }
   }
@@ -37,7 +36,6 @@ export default function Login() {
       }
 
       const data = await response.json();
-
       setUsername(username);
       localStorage.setItem("friends", JSON.stringify(data.friends));
       navigate("/home");
@@ -45,13 +43,9 @@ export default function Login() {
       return true;
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Invalid credentials");
+      toast.error("Invalid credentials");
       return false;
     }
-  }
-
-  function register() {
-    navigate("/register");
   }
 
   async function getRandomVerse() {
@@ -108,10 +102,8 @@ export default function Login() {
                 </div>
                 <div className="login-button-container">
                   <p>
-                    Not registered?
-                    <a href="register.html" onClick={register}>
-                      {"Register here"}
-                    </a>
+                    {"Not registered? "}
+                    <a href="register">{"Register here"}</a>
                   </p>
                 </div>
               </form>
