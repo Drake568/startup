@@ -4,8 +4,7 @@ import "../css/login.css";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
 import { toast } from "react-toastify";
-
-const isMissing = (value: string) => value === "";
+import { isMissing } from "../utils";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ export default function Login() {
       }
 
       const data = await response.json();
-      setUsername(username);
+      localStorage.setItem("username", username);
       localStorage.setItem("friends", JSON.stringify(data.friends));
       navigate("/home");
 

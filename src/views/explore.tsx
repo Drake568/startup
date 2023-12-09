@@ -1,39 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/home.css";
 import "rsuite/dist/rsuite.min.css";
 import Navbar from "../components/Navbar";
 import Split from "react-split";
 import Iframe from "react-iframe";
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  MenuItem,
-  MenuList,
-  Typography,
-} from "@mui/joy";
-import Study from "../model/study";
+import { Box } from "@mui/joy";
 import StudiesGrid from "../components/StudiesGrid";
-import { ClickAwayListener } from "@mui/base";
-import { Popup } from "@mui/base/Unstable_Popup/Popup";
 import ExploreBar from "../components/ExploreBar";
-import FriendRequestModal from "../components/FriendRequestModal";
-
-const myStudy: Study = {
-  username: "john_doe",
-  note: "Study on React TypeScript",
-  links: ["https://example.com", "https://typescriptlang.org"],
-  shared: true,
-  timestamp: new Date(),
-};
+import { fetchStudies } from "../apiRouter";
+import { isMissing } from "../utils";
 
 export default function Explore() {
   const [expanded, setExpanded] = React.useState(true);
   const [url, setUrl] = React.useState(
     "https://www.churchofjesuschrist.org/study/scriptures?lang=eng&platform=web"
   );
-  const [studies, setStudies] = React.useState([myStudy, myStudy, myStudy]);
+  const [studies, setStudies] = React.useState([]);
+
+  const getFriendStudies = async (currentFriend) => {
+    try {
+      if (!isMissing(currentFriend)) {
+        const data = await fetchStudies(currentFriend);
+        console.log(data);
+        if (data) {
+          setStudies(data);
+        }
+      }
+    } catch (error) {
+      console.error("Error in fetchData:", error);
+    }
+  };
 
   return (
     <div className="home-container">
@@ -46,13 +42,13 @@ export default function Explore() {
               style={{ marginLeft: expanded ? 140 : 60 }}
             >
               <div className="friend-info-container">
-                <ExploreBar />
+                <ExploreBar fetch={getFriendStudies} />
               </div>
               <div className="left-split-content" style={{ marginLeft: 10 }}>
                 <Box sx={{ flexGrow: 1 }}>
                   <StudiesGrid
                     studies={studies}
-                    setUrl={url}
+                    setUrl={setUrl}
                     edit={false}
                   ></StudiesGrid>
                 </Box>

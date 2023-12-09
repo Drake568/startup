@@ -18,6 +18,10 @@ import {
 import Plus from "@rsuite/icons/Plus";
 import RemoveIcon from "@mui/icons-material/Remove";
 import LaunchIcon from "@mui/icons-material/Launch";
+import Study from "../model/study";
+import { postStudy } from "../apiRouter";
+import { toast } from "react-toastify";
+import { set } from "lodash";
 
 export default function compose() {
   const [expanded, setExpanded] = React.useState(true);
@@ -25,8 +29,9 @@ export default function compose() {
     "https://www.churchofjesuschrist.org/study/scriptures?lang=eng&platform=web"
   );
   const [linkNum, setLinkNum] = React.useState(0);
-
   const [links, setLinks] = useState<string[]>([]);
+  const [privateStudy, setPrivateStudy] = useState<boolean>(false);
+  const [note, setNote] = useState<string>("");
 
   const handleAddLink = () => {
     setLinks([...links, ""]); // Add an empty link to the array
@@ -42,6 +47,24 @@ export default function compose() {
     setUrl(links[index]);
   };
 
+  const saveStudy = () => {
+    const newStudy: Study = {
+      username: localStorage.getItem("username") || "",
+      note: note,
+      links: links,
+      shared: privateStudy,
+      timestamp: new Date(),
+    };
+
+    postStudy(newStudy);
+
+    toast.success("Study saved!");
+
+    setNote("");
+    setLinks([]);
+    setLinkNum(0);
+  };
+
   return (
     <div className="home-container">
       <main>
@@ -55,7 +78,11 @@ export default function compose() {
               <div className="left-split-content">
                 <Box sx={{ flexGrow: 1, padding: 3 }}>
                   <Typography level="h4">{"Your Notes:"}</Typography>
-                  <Textarea minRows={10}></Textarea>
+                  <Textarea
+                    minRows={10}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                  ></Textarea>
 
                   <Typography level="h4">{"Links"}</Typography>
                   <div>
@@ -74,7 +101,7 @@ export default function compose() {
                         </Button>
                         <Checkbox label="Private"></Checkbox>
                       </Stack>
-                      <Button onClick={() => {}}>Save Study</Button>
+                      <Button onClick={saveStudy}>Save Study</Button>
                     </Stack>
 
                     {/* Render Input components with IconButton for removing */}

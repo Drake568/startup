@@ -11,6 +11,12 @@ import { useNavigate } from "react-router";
 const Navbar = ({ expanded, setExpanded }) => {
   const navigate = useNavigate();
   const [activeKey, setActiveKey] = React.useState("1");
+
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/login");
+  }
+
   return (
     <div>
       <nav className="navbar-container">
@@ -45,7 +51,7 @@ const Navbar = ({ expanded, setExpanded }) => {
                 </Nav.Item>
                 <Nav.Item
                   eventKey="4"
-                  onClick={() => navigate("/login")}
+                  onClick={handleLogout}
                   icon={<ExitIcon />}
                 >
                   Logout

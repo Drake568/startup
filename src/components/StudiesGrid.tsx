@@ -11,12 +11,13 @@ import { Button, Col, Grid } from "rsuite";
 import EditIcon from "@mui/icons-material/Edit";
 import { auto } from "@popperjs/core";
 import { toast } from "react-toastify";
+import Study from "../model/study";
 
 const StudiesGrid = ({ studies, setUrl, edit }) => {
   return (
     <Grid fluid style={{ padding: 8 }}>
-      {studies.map((Study) => (
-        <Col style={{ padding: 4 }}>
+      {studies.map((Study: Study, index) => (
+        <Col key={index} style={{ padding: 4 }}>
           <Card sx={{ width: 400, height: 200, position: "relative" }}>
             {edit && (
               <Stack
@@ -41,7 +42,7 @@ const StudiesGrid = ({ studies, setUrl, edit }) => {
               <CardContent orientation="horizontal">
                 <div>
                   <Typography level="h4">
-                    {Study.timestamp.toDateString()}
+                    {Study.timestamp.toLocaleString()}
                   </Typography>
                   <Typography fontSize={14}>{Study.note}</Typography>
                   {Study.links.map((link, index) => (
@@ -51,7 +52,7 @@ const StudiesGrid = ({ studies, setUrl, edit }) => {
                         component={Button}
                         onClick={() => setUrl(link)}
                       >
-                        {link}
+                        {"Link " + (index + 1) || ""}
                       </Link>
                       <br />
                     </React.Fragment>

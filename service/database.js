@@ -60,15 +60,13 @@ async function removeFriendRequest(sender, receiver) {
 }
 
 async function getStudies(username) {
-  const result = await studyCollection
-    .find({ associatedUser: username })
-    .toArray();
+  const result = await studyCollection.find({ username: username }).toArray();
   return result;
 }
 
 async function getFriendStudies(username) {
   const result = await studyCollection
-    .find({ associatedUser: username, shared: true })
+    .find({ username: username, shared: true })
     .toArray();
   return result;
 }

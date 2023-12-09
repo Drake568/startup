@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ExploreBar.css";
 import "rsuite/dist/rsuite.min.css";
 import { Button, MenuItem, MenuList, Modal, Stack } from "@mui/joy";
@@ -7,19 +7,25 @@ import { Popup } from "@mui/base/Unstable_Popup/Popup";
 import { toast } from "react-toastify";
 import { Input } from "rsuite";
 import FriendRequestModal from "./FriendRequestModal";
+import { sendFriendRequest } from "../apiRouter";
+import { isMissing } from "../utils";
+import { set } from "lodash";
 
-const ExploreBar = () => {
+const ExploreBar = ({ fetch }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [open, setOpen] = React.useState(false);
+  const [friendListOpen, setFriendListOpen] = React.useState(false);
   const friendsFromStorage = localStorage.getItem("friends");
   const friends = friendsFromStorage ? JSON.parse(friendsFromStorage) : [];
+  const [searchInput, setSearchInput] = React.useState("");
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleClick = (friend) => {
-    toast.success(`You selected ${friend}`);
+    setFriendListOpen(false);
+    fetch(friend);
   };
 
   const handleListKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -31,6 +37,14 @@ const ExploreBar = () => {
     }
   };
 
+  async function addFriendRequest() {
+    if (searchInput == localStorage.getItem("username")) {
+      toast.error("You cannot send a friend request to yourself.");
+      return;
+    }
+    await sendFriendRequest(localStorage.getItem("username"), searchInput);
+  }
+
   return (
     <div className="ExploreBar-container">
       <Stack direction="row" spacing={2}>
@@ -39,27 +53,40 @@ const ExploreBar = () => {
           id="composition-button"
           aria-controls={"composition-menu"}
           aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          variant="outlined"
-          color="neutral"
+          aria-expanded={friendListOpen ? "true" : undefined}
+          variant="plain"
+          color="primary"
           onClick={() => {
-            setOpen(!open);
+            setFriendListOpen(!friendListOpen);
           }}
+          disabled={friends.length === 0}
         >
           Select Friend
         </Button>
-        <Input placeholder="Search for Friends" style={{ width: "150px" }} />
-        <Button> Send</Button>
-        <FriendRequestModal
-          hasFriendRequest={true}
-          friendRequestData={"undefined"}
+        <Input
+          placeholder="Search for Friends"
+          value={searchInput}
+          style={{ width: "150px" }}
+          onChange={(e) => {
+            setSearchInput(e.valueOf().toString());
+          }}
         />
+        <Button
+          size="sm"
+          disabled={isMissing(searchInput)}
+          variant="plain"
+          onClick={addFriendRequest}
+        >
+          {" "}
+          Send
+        </Button>
+        <FriendRequestModal />
       </Stack>
       <div className="composition-menu">
         <Popup
           role={undefined}
           id="composition-menu"
-          open={open}
+          open={friendListOpen}
           disablePortal
           modifiers={[
             {

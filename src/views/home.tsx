@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/home.css";
 import "rsuite/dist/rsuite.min.css";
 import Navbar from "../components/Navbar";
@@ -7,6 +7,7 @@ import Iframe from "react-iframe";
 import { Box } from "@mui/joy";
 import Study from "../model/study";
 import StudiesGrid from "../components/StudiesGrid";
+import { fetchStudies } from "../apiRouter";
 
 const myStudy: Study = {
   username: "john_doe",
@@ -21,7 +22,27 @@ export function Home() {
   const [url, setUrl] = React.useState(
     "https://www.churchofjesuschrist.org/study/scriptures?lang=eng&platform=web"
   );
-  const [studies, setStudies] = React.useState([myStudy, myStudy, myStudy]);
+  const [studies, setStudies] = React.useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const username = localStorage.getItem("username");
+        if (username) {
+          const data = await fetchStudies(username);
+          console.log(data);
+          if (data) {
+            setStudies(data);
+          }
+        }
+      } catch (error) {
+        console.error("Error in fetchData:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="home-container">
       <main>
@@ -36,7 +57,7 @@ export function Home() {
                 <Box sx={{ flexGrow: 1 }}>
                   <StudiesGrid
                     studies={studies}
-                    setUrl={url}
+                    setUrl={setUrl}
                     edit={true}
                   ></StudiesGrid>
                 </Box>
