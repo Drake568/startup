@@ -10,23 +10,26 @@ import { Home } from "./views/home";
 import Register from "./views/register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { WebSocketProvider } from "./components/Websocket";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ToastContainer />
-      <div>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/compose" element={<Compose />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <WebSocketProvider>
+      <BrowserRouter>
+        <ToastContainer />
+        <div>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/compose" element={<Compose />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </WebSocketProvider>
   );
 }
 

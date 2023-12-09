@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import "../css/login.css";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
 import { toast } from "react-toastify";
 import { isMissing } from "../utils";
+import { useWebSocket } from "../components/Websocket";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function Login() {
     localStorage.getItem("username") || ""
   );
   const [password, setPassword] = React.useState("");
+  const socket = useWebSocket();
 
   function login() {
     if (!verifyCredentials()) {
@@ -37,7 +39,7 @@ export default function Login() {
       localStorage.setItem("username", username);
       localStorage.setItem("friends", JSON.stringify(data.friends));
       navigate("/home");
-
+      socket?.createWebSocket();
       return true;
     } catch (error) {
       console.error("Error during login:", error);

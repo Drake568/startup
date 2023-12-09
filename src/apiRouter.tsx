@@ -61,12 +61,7 @@ export async function sendFriendRequest(sender, receiver) {
     if (response.ok) {
       const data = await response.json();
       console.log(data.message);
-      if (data.message === "Friend request already exists") {
-        toast.error(data.message);
-      } else {
-        toast.success(data.message);
-      }
-      // sendFriendRequestNotification(receiver);
+      return data;
     } else {
       const data = await response.json();
       console.error(data.error);

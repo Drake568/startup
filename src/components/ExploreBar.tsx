@@ -10,6 +10,7 @@ import FriendRequestModal from "./FriendRequestModal";
 import { sendFriendRequest } from "../apiRouter";
 import { isMissing } from "../utils";
 import { set } from "lodash";
+import { useWebSocket } from "./Websocket";
 
 const ExploreBar = ({ fetch }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -18,6 +19,7 @@ const ExploreBar = ({ fetch }) => {
   const friendsFromStorage = localStorage.getItem("friends");
   const friends = friendsFromStorage ? JSON.parse(friendsFromStorage) : [];
   const [searchInput, setSearchInput] = React.useState("");
+  const socket = useWebSocket();
 
   const handleClose = () => {
     setOpen(false);
@@ -42,7 +44,26 @@ const ExploreBar = ({ fetch }) => {
       toast.error("You cannot send a friend request to yourself.");
       return;
     }
-    await sendFriendRequest(localStorage.getItem("username"), searchInput);
+    const data = await sendFriendRequest(
+      localStorage.getItem("username"),
+      searchInput
+    );
+    if (data) {
+      if (data.message === "Friend request already exists") {
+        toast.error(data.message);
+      } else {
+        toast.success(data.message);
+        if (socket?.socket) {
+          // toast.success("WooooHoooo");
+          socket.socket.send(
+            JSON.stringify({
+              type: "friendRequest",
+              friendUsername: searchInput,
+            })
+          );
+        }
+      }
+    }
   }
 
   return (

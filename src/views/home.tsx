@@ -58,7 +58,7 @@ export function Home() {
                   <StudiesGrid
                     studies={studies}
                     setUrl={setUrl}
-                    edit={true}
+                    edit={false}
                   ></StudiesGrid>
                 </Box>
               </div>

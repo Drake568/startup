@@ -58,8 +58,6 @@ export default function compose() {
 
     postStudy(newStudy);
 
-    toast.success("Study saved!");
-
     setNote("");
     setLinks([]);
     setLinkNum(0);
