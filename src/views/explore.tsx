@@ -18,6 +18,7 @@ import StudiesGrid from "../components/StudiesGrid";
 import { ClickAwayListener } from "@mui/base";
 import { Popup } from "@mui/base/Unstable_Popup/Popup";
 import ExploreBar from "../components/ExploreBar";
+import FriendRequestModal from "../components/FriendRequestModal";
 
 const myStudy: Study = {
   username: "john_doe",

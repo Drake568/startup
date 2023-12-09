@@ -28,6 +28,7 @@ main {
 
 .left-split {
   flex: 1;
+  min-width: 450px;
 }
 
 @media screen and (max-width: 768px) {

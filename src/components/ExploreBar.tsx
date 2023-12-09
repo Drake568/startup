@@ -1,11 +1,12 @@
 import React from "react";
 import "./ExploreBar.css";
 import "rsuite/dist/rsuite.min.css";
-import { Button, MenuItem, MenuList } from "@mui/joy";
-
+import { Button, MenuItem, MenuList, Modal, Stack } from "@mui/joy";
 import { ClickAwayListener } from "@mui/base";
 import { Popup } from "@mui/base/Unstable_Popup/Popup";
 import { toast } from "react-toastify";
+import { Input } from "rsuite";
+import FriendRequestModal from "./FriendRequestModal";
 
 const ExploreBar = () => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -32,20 +33,28 @@ const ExploreBar = () => {
 
   return (
     <div className="ExploreBar-container">
-      <Button
-        ref={buttonRef}
-        id="composition-button"
-        aria-controls={"composition-menu"}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        variant="outlined"
-        color="neutral"
-        onClick={() => {
-          setOpen(!open);
-        }}
-      >
-        Select Friend
-      </Button>
+      <Stack direction="row" spacing={2}>
+        <Button
+          ref={buttonRef}
+          id="composition-button"
+          aria-controls={"composition-menu"}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          variant="outlined"
+          color="neutral"
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          Select Friend
+        </Button>
+        <Input placeholder="Search for Friends" style={{ width: "150px" }} />
+        <Button> Send</Button>
+        <FriendRequestModal
+          hasFriendRequest={true}
+          friendRequestData={"undefined"}
+        />
+      </Stack>
       <div className="composition-menu">
         <Popup
           role={undefined}
