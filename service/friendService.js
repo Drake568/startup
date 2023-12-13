@@ -1,5 +1,5 @@
-const userService = require("./userService");
-const DB = require("../database.js");
+const userService = require("./userService.js");
+const DB = require("./database.js");
 
 async function addFriendRequest(sender, receiver) {
   try {

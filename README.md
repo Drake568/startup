@@ -107,3 +107,12 @@ For this deliverable I used webSocket to notify users of friend requests in real
 - **Frontend makes WebSocket connection** - done!
 - **Data sent over WebSocket connection** - done!
 - **WebSocket data displayed** - Friend requests are displayed in the notifications section of the home page. They pop up without the user having to refresh the page.
+
+## React deliverable
+
+For this deliverable I converted the application over to use React. I completely redid the UI.
+
+- **Bundled and transpiled** - done!
+- **Components** - Made several components such as the StudiesGrid and Navbar for better code reuse.
+- **Router** - I used a router to change pages.
+- **Hooks** - I used useEffect, useState, and useContext hooks as needed.

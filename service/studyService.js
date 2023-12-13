@@ -1,6 +1,6 @@
 // studyService.js
 
-const DB = require("../database.js");
+const DB = require("./database.js");
 
 async function saveStudy(data) {
   const studyData = data.study;
